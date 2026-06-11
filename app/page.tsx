@@ -368,7 +368,7 @@ const [mutualFunds, setMutualFunds] = useState<number>(() => {
                   {/* Global Mode Toggle inside TopBar with beautiful micro feedback */}
                   <button
                     onClick={() => setIsDarkMode(!isDarkMode)}
-                    className={`p-1.5 rounded-xl border transition-all hover:scale-105 active:scale-95 cursor-pointer ${getRelativeColor('bg-slate-100 border-slate-200 text-slate-600', 'bg-wallet-dark-card border-wallet-dark-card-lighter text-slate-200')
+                    className={`hidden p-1.5 rounded-xl border transition-all hover:scale-105 active:scale-95 cursor-pointer ${getRelativeColor('bg-slate-100 border-slate-200 text-slate-600', 'bg-wallet-dark-card border-wallet-dark-card-lighter text-slate-200')
                       }`}
                   >
                     {isDarkMode ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-violet-500" />}
