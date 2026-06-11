@@ -489,7 +489,7 @@ const [mutualFunds, setMutualFunds] = useState<number>(() => {
                       <div className={`p-2 rounded-xl mb-1.5 ${getRelativeColor('bg-slate-50', 'bg-wallet-dark')}`}>
                         {getIcon(act.id)}
                       </div>
-                      <span className="text-[10px] font-bold leading-tight select-none">
+                      <span className="text-[8px] font-bold leading-tight select-none">
                         {act.label}
                       </span>
                     </button>
@@ -518,9 +518,7 @@ const [mutualFunds, setMutualFunds] = useState<number>(() => {
 
                 <div className="text-right">
                   <span className="text-[10px] text-slate-500 font-bold block">Today 6:49 AM</span>
-                  <span className="text-[9px] bg-wallet-purple/10 text-wallet-purple font-semibold px-2 py-0.5 rounded-full mt-1 inline-block">
-                    Credited
-                  </span>
+                 
                 </div>
               </div>
 
