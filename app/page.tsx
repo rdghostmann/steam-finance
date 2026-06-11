@@ -439,7 +439,8 @@ const [mutualFunds, setMutualFunds] = useState<number>(() => {
 
                 {/* YESTERDAY'S EARNINGS ATTACHED BAR */}
                 <div
-                  onClick={() => setEarningsWidgetOpen(true)}
+                  onClick={() => {}}
+                  // onClick={() => setEarningsWidgetOpen(true)}
                   className={`my-5 p-3.5 rounded-2xl flex items-center justify-between cursor-pointer transition-colors hover:bg-opacity-80 absolute-z ${getRelativeColor('bg-purple-950/90 text-white', 'bg-wallet-dark-card-lighter text-white border border-wallet-dark-card-lighter')
                     }`}
                 >
