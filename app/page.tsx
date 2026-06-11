@@ -345,7 +345,7 @@ const [mutualFunds, setMutualFunds] = useState<number>(() => {
 
 
             {/* Simulated Active Application */}
-            <div className={`w-full rounded-[2.5rem] px-5 pt-8 pb-6 overflow-hidden min-h-1 flex flex-col justify-between transition-colors duration-300 ${getRelativeColor(
+            <div className={`w-full rounded-[2.5rem] px-2 pt-8 pb-6 overflow-hidden min-h-1 flex flex-col justify-between transition-colors duration-300 ${getRelativeColor(
               'bg-slate-200 border-slate-300 shadow-slate-100',
               'bg-[#1F1B2C] border-[#2C2640] shadow-slate-950/20'
             )}`}>
