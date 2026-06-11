@@ -440,7 +440,7 @@ const [mutualFunds, setMutualFunds] = useState<number>(() => {
                 {/* YESTERDAY'S EARNINGS ATTACHED BAR */}
                 <div
                   onClick={() => setEarningsWidgetOpen(true)}
-                  className={`mt-1.5 p-3.5 rounded-2xl flex items-center justify-between cursor-pointer transition-colors hover:bg-opacity-80 absolute-z ${getRelativeColor('bg-purple-950/90 text-white', 'bg-wallet-dark-card-lighter text-white border border-wallet-dark-card-lighter')
+                  className={`my-5 p-3.5 rounded-2xl flex items-center justify-between cursor-pointer transition-colors hover:bg-opacity-80 absolute-z ${getRelativeColor('bg-purple-950/90 text-white', 'bg-wallet-dark-card-lighter text-white border border-wallet-dark-card-lighter')
                     }`}
                 >
                   <div className="flex items-center gap-2">
@@ -454,7 +454,7 @@ const [mutualFunds, setMutualFunds] = useState<number>(() => {
               </div>
 
               {/* STAGE C: QUICK ACTION SEGMENT BUTTONS */}
-              <div className="grid grid-cols-4 gap-2.5 mt-16">
+              <div className="grid grid-cols-4 gap-2.5">
                 {[
                   { id: 'bank', label: 'To Bank', sub: '0 fee', isHot: true },
                   { id: 'palmpay', label: 'To PalmPay' },
