@@ -408,7 +408,7 @@ const [mutualFunds, setMutualFunds] = useState<number>(() => {
                   <div className="flex justify-between items-center">
                     <div className="flex items-center gap-1.5 cursor-pointer" onClick={() => setShowBalance(!showBalance)}>
                       <div className="w-2 h-2 rounded-full bg-wallet-green animate-ping" />
-                      <span className="text-[11px] font-bold text-wallet-green/90 uppercase tracking-widest flex items-center gap-1">
+                      <span className="text-[8px] font-bold text-green-500 uppercase tracking-widest flex items-center gap-1">
                         Available Balance
                       </span>
                       {showBalance ? <Eye className="w-3.5 h-3.5 text-white/70" /> : <EyeOff className="w-3.5 h-3.5 text-white/70" />}
@@ -416,7 +416,7 @@ const [mutualFunds, setMutualFunds] = useState<number>(() => {
 
                     <button
                       onClick={() => setHistoryOpen(true)}
-                      className="text-[10px] text-white/90 hover:underline font-bold flex items-center gap-0.5 tracking-wider uppercase"
+                      className="text-[8px] text-white/90 hover:underline font-bold flex items-center gap-0.5 tracking-wider uppercase"
                     >
                       Transaction History <ChevronRight className="w-3.5 h-3.5" />
                     </button>
