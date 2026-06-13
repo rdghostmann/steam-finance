@@ -20,3 +20,21 @@ export interface Bank {
   name: string;
   code: string;
 }
+
+
+// Add this to your existing types.ts
+
+export interface ReceiptData {
+  amount: number;
+  recipientName: string;
+  recipientBank: string;         // e.g. "Access Bank" or "PalmPay"
+  recipientAccount: string;      // account number or masked phone
+  senderName: string;            // e.g. "RANDAL WILSON"
+  senderBank: string;            // e.g. "NairaPay"
+  senderAccount: string;         // masked sender account
+  transactionType: string;       // e.g. "Money Transfer - MMO"
+  transactionId: string;
+  sessionId: string;
+  remark: string;
+  timestamp: string;             // ISO string — formatted on render
+}
