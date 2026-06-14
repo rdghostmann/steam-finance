@@ -475,7 +475,7 @@ export default function TransferModal({
                           />
                         ))}
                         <span className="text-xs font-medium text-slate-500 ml-1">
-                          Verifying with Paystack…
+                          Verifying 
                         </span>
                       </div>
                     )}

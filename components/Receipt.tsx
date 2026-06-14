@@ -233,7 +233,7 @@ export default function ReceiptPage() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `nairapay-receipt-${Date.now()}.png`;
+    a.download = `PalmPay-receipt-${Date.now()}.png`;
     a.click();
     URL.revokeObjectURL(url);
   };
