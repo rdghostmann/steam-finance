@@ -194,7 +194,7 @@ export default function TransferModal({
       if (isResolving) { setErrorText('Still verifying account — please wait.'); return; }
       if (!resolvedName) { setErrorText(resolveError || 'Could not verify account. Check the number and bank.'); return; }
     } else {
-      if (phoneNo.length !== 10) { setErrorText('PalmPay phone must be exactly 10 digits.'); return; }
+      if (phoneNo.length !== 10) { setErrorText('PalmPay Account number must be exactly 10 digits.'); return; }
       if (isResolving) { setErrorText('Still verifying PalmPay account — please wait.'); return; }
       if (!resolvedName) { setErrorText(resolveError || 'Could not verify PalmPay account. Check the phone number.'); return; }
     }
@@ -329,7 +329,7 @@ export default function TransferModal({
               {/* PalmPay fields */}
               {transferType === 'palmpay' && (
                 <div>
-                  <label className="text-xs text-slate-400 font-semibold mb-1 block">PalmPay Phone Number</label>
+                  <label className="text-xs text-slate-400 font-semibold mb-1 block">PalmPay Account Number</label>
                   <input
                     type="text" inputMode="numeric" maxLength={10}
                     value={phoneNo}
