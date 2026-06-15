@@ -1,8 +1,4 @@
 // app/api/resolve-account/route.ts
-// Proxies Paystack's "Resolve Account Number" endpoint server-side
-// so the secret key is never exposed to the browser.
-//
-// Usage: GET /api/resolve-account?account_number=0123456789&bank_code=044
 
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -11,7 +7,6 @@ export async function GET(req: NextRequest) {
   const account_number = searchParams.get('account_number');
   const bank_code      = searchParams.get('bank_code');
 
-  // ── Basic validation ────────────────────────────────────────────────────────
   if (!account_number || !bank_code) {
     return NextResponse.json(
       { error: 'account_number and bank_code are required' },
@@ -19,9 +14,10 @@ export async function GET(req: NextRequest) {
     );
   }
 
+  // 10 digits for NUBAN bank accounts, 11 digits for PalmPay/OPay phone numbers
   if (!/^\d{10}$/.test(account_number)) {
     return NextResponse.json(
-      { error: 'account_number must be exactly 10 digits' },
+      { error: 'account_number must be 10  digits' },
       { status: 400 }
     );
   }
@@ -34,33 +30,28 @@ export async function GET(req: NextRequest) {
     );
   }
 
-  // ── Call Paystack ───────────────────────────────────────────────────────────
   try {
     const url = `https://api.paystack.co/bank/resolve?account_number=${account_number}&bank_code=${bank_code}`;
 
     const res = await fetch(url, {
       headers: {
         Authorization: `Bearer ${PAYSTACK_SECRET}`,
-        'Cache-Control': 'no-store', // always live data
+        'Cache-Control': 'no-store',
       },
-      // Next.js fetch cache — revalidate every 60s
-      // (same account/bank combo rarely changes)
       next: { revalidate: 60 },
     });
 
     const data = await res.json();
 
     if (!res.ok || !data.status) {
-      // Paystack returned an error (e.g. account not found)
       return NextResponse.json(
         { error: data.message ?? 'Could not resolve account' },
         { status: res.status }
       );
     }
 
-    // ── Return just what the client needs ─────────────────────────────────────
     return NextResponse.json({
-      account_name:   data.data.account_name,   // e.g. "JOHN DOE"
+      account_name:   data.data.account_name,
       account_number: data.data.account_number,
     });
 

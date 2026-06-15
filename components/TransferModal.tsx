@@ -8,11 +8,9 @@ import {
 } from 'lucide-react';
 import { ReceiptData } from '@/types';
 
-// ─── Types ────────────────────────────────────────────────────────────────────
-
 interface Bank {
   name: string;
-  code: string; // Paystack bank code e.g. "044"
+  code: string;
 }
 
 interface TransferModalProps {
@@ -24,43 +22,38 @@ interface TransferModalProps {
   presetTarget?: 'bank' | 'palmpay';
 }
 
-// ─── Nigerian banks with Paystack codes ───────────────────────────────────────
-// Full list: https://api.paystack.co/bank
-// These are the most common ones — you can fetch the full list dynamically
-// from GET https://api.paystack.co/bank if you need all of them.
-
 const NIGERIAN_BANKS: Bank[] = [
-  { name: 'Access Bank',                  code: '044' },
-  { name: 'Citibank Nigeria',             code: '023' },
-  { name: 'Ecobank Nigeria',              code: '050' },
-  { name: 'Fidelity Bank',               code: '070' },
-  { name: 'First Bank of Nigeria',        code: '011' },
-  { name: 'First City Monument Bank',     code: '214' },
-  { name: 'Globus Bank',                  code: '00103' },
-  { name: 'Guaranty Trust Bank',          code: '058' },
-  { name: 'Heritage Bank',               code: '030' },
-  { name: 'Jaiz Bank',                   code: '301' },
-  { name: 'Keystone Bank',               code: '082' },
-  { name: 'Kuda Bank',                   code: '50211' },
-  { name: 'Moniepoint MFB',              code: '50515' },
-  { name: 'OPay',                        code: '999992' },
-  { name: 'PalmPay',                     code: '999991' },
-  { name: 'Parallex Bank',               code: '526' },
-  { name: 'Polaris Bank',                code: '076' },
-  { name: 'Providus Bank',               code: '101' },
-  { name: 'Stanbic IBTC Bank',           code: '039' },
-  { name: 'Standard Chartered Bank',     code: '068' },
-  { name: 'Sterling Bank',               code: '232' },
-  { name: 'SunTrust Bank',               code: '100' },
-  { name: 'Union Bank of Nigeria',        code: '032' },
-  { name: 'United Bank for Africa',       code: '033' },
-  { name: 'Unity Bank',                  code: '215' },
-  { name: 'VFD Microfinance Bank',        code: '566' },
-  { name: 'Wema Bank',                   code: '035' },
-  { name: 'Zenith Bank',                 code: '057' },
+  { name: 'Access Bank',              code: '044' },
+  { name: 'Citibank Nigeria',         code: '023' },
+  { name: 'Ecobank Nigeria',          code: '050' },
+  { name: 'Fidelity Bank',            code: '070' },
+  { name: 'First Bank of Nigeria',    code: '011' },
+  { name: 'First City Monument Bank', code: '214' },
+  { name: 'Globus Bank',              code: '00103' },
+  { name: 'Guaranty Trust Bank',      code: '058' },
+  { name: 'Heritage Bank',            code: '030' },
+  { name: 'Jaiz Bank',                code: '301' },
+  { name: 'Keystone Bank',            code: '082' },
+  { name: 'Kuda Bank',                code: '50211' },
+  { name: 'Moniepoint MFB',           code: '50515' },
+  { name: 'OPay',                     code: '999992' },
+  { name: 'Parallex Bank',            code: '526' },
+  { name: 'Polaris Bank',             code: '076' },
+  { name: 'Providus Bank',            code: '101' },
+  { name: 'Stanbic IBTC Bank',        code: '039' },
+  { name: 'Standard Chartered Bank',  code: '068' },
+  { name: 'Sterling Bank',            code: '232' },
+  { name: 'SunTrust Bank',            code: '100' },
+  { name: 'Union Bank of Nigeria',    code: '032' },
+  { name: 'United Bank for Africa',   code: '033' },
+  { name: 'Unity Bank',               code: '215' },
+  { name: 'VFD Microfinance Bank',    code: '566' },
+  { name: 'Wema Bank',                code: '035' },
+  { name: 'Zenith Bank',              code: '057' },
 ];
 
-// ─── Helpers ──────────────────────────────────────────────────────────────────
+// PalmPay's Paystack bank code — used for phone-number resolution
+const PALMPAY_BANK_CODE = '999991';
 
 const genId = (len = 13) => {
   const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
@@ -69,20 +62,6 @@ const genId = (len = 13) => {
 
 const genSessionId = () =>
   Array.from({ length: 30 }, () => Math.floor(Math.random() * 10)).join('');
-
-// Mock names kept only as PalmPay fallback (Paystack doesn't resolve mobile wallets)
-const PALMPAY_MOCK_NAMES = [
-  'Amina Bello Abubakar',
-  'Chinedu Emmanuel Okechukwu',
-  'Olawale Segun Adesina',
-  'Blessing Chioma Nwachukwu',
-  "Fatima Yar'Adua",
-  'Tunde Bakare Cole',
-  'Efe Gbenebichie',
-  'Ibrahim Danjuma Musa',
-];
-
-// ─── Component ────────────────────────────────────────────────────────────────
 
 export default function TransferModal({
   isOpen,
@@ -94,19 +73,18 @@ export default function TransferModal({
 }: TransferModalProps) {
   const router = useRouter();
 
-  const [transferType, setTransferType]     = useState<'bank' | 'palmpay'>(presetTarget);
-  const [selectedBank, setSelectedBank]     = useState<Bank>(NIGERIAN_BANKS[0]);
-  const [accountNumber, setAccountNumber]   = useState('');
-  const [phoneNo, setPhoneNo]               = useState('');
-  const [resolvedName, setResolvedName]     = useState('');
-  const [resolveError, setResolveError]     = useState('');
-  const [isResolving, setIsResolving]       = useState(false);
-  const [amount, setAmount]                 = useState('');
-  const [remark, setRemark]                 = useState('');
-  const [errorText, setErrorText]           = useState('');
-  const [isSubmitting, setIsSubmitting]     = useState(false);
+  const [transferType, setTransferType]   = useState<'bank' | 'palmpay'>(presetTarget);
+  const [selectedBank, setSelectedBank]   = useState<Bank>(NIGERIAN_BANKS[0]);
+  const [accountNumber, setAccountNumber] = useState('');
+  const [phoneNo, setPhoneNo]             = useState('');
+  const [resolvedName, setResolvedName]   = useState('');
+  const [resolveError, setResolveError]   = useState('');
+  const [isResolving, setIsResolving]     = useState(false);
+  const [amount, setAmount]               = useState('');
+  const [remark, setRemark]               = useState('');
+  const [errorText, setErrorText]         = useState('');
+  const [isSubmitting, setIsSubmitting]   = useState(false);
 
-  // Debounce ref — cancels in-flight resolve if user keeps typing
   const resolveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // ── Reset on open ──────────────────────────────────────────────────────────
@@ -124,28 +102,22 @@ export default function TransferModal({
     }
   }, [isOpen, presetTarget]);
 
-  // ── Trigger resolve when account number hits 10 digits ────────────────────
+  // ── Bank account number resolve (fires at exactly 10 digits) ──────────────
   useEffect(() => {
     if (transferType !== 'bank') return;
-
-    // Clear previous result whenever user edits
     setResolvedName('');
     setResolveError('');
-
     if (accountNumber.length !== 10) return;
 
-    // Debounce 400ms so we don't fire on every keystroke near 10
     if (resolveTimer.current) clearTimeout(resolveTimer.current);
     resolveTimer.current = setTimeout(() => {
       resolveFromPaystack(accountNumber, selectedBank.code);
     }, 400);
 
-    return () => {
-      if (resolveTimer.current) clearTimeout(resolveTimer.current);
-    };
+    return () => { if (resolveTimer.current) clearTimeout(resolveTimer.current); };
   }, [accountNumber, selectedBank, transferType]);
 
-  // ── Re-resolve if user switches bank after entering account number ─────────
+  // ── Re-resolve when bank changes mid-entry ────────────────────────────────
   useEffect(() => {
     if (transferType === 'bank' && accountNumber.length === 10) {
       setResolvedName('');
@@ -155,40 +127,42 @@ export default function TransferModal({
         resolveFromPaystack(accountNumber, selectedBank.code);
       }, 400);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedBank]);
 
-  // ── Mock resolve for PalmPay (no Paystack endpoint for wallet phones) ─────
+  // ── PalmPay phone resolve via Paystack (bank code 999991) ────────────────
+  // Paystack supports resolving PalmPay accounts using the phone number
+  // as the account_number and '999991' as the bank_code.
   useEffect(() => {
     if (transferType !== 'palmpay') return;
     setResolvedName('');
     setResolveError('');
-    if (phoneNo.length !== 11) return;
+    if (phoneNo.length !== 10) return;
 
-    setIsResolving(true);
-    const t = setTimeout(() => {
-      const idx = Math.floor(Math.random() * PALMPAY_MOCK_NAMES.length);
-      setResolvedName(PALMPAY_MOCK_NAMES[idx]);
-      setIsResolving(false);
-    }, 1000);
-    return () => clearTimeout(t);
+    if (resolveTimer.current) clearTimeout(resolveTimer.current);
+    resolveTimer.current = setTimeout(() => {
+      resolveFromPaystack(phoneNo, PALMPAY_BANK_CODE);
+    }, 400);
+
+    return () => { if (resolveTimer.current) clearTimeout(resolveTimer.current); };
   }, [phoneNo, transferType]);
 
-  // ── Paystack account resolution ────────────────────────────────────────────
-  const resolveFromPaystack = async (accNo: string, bankCode: string) => {
+  // ── Core Paystack resolve call ─────────────────────────────────────────────
+  const resolveFromPaystack = async (identifier: string, bankCode: string) => {
     setIsResolving(true);
     setResolvedName('');
     setResolveError('');
 
     try {
       const res = await fetch(
-        `/api/resolve-account?account_number=${accNo}&bank_code=${bankCode}`
+        `/api/resolve-account?account_number=${identifier}&bank_code=${bankCode}`
       );
       const data = await res.json();
 
       if (!res.ok) {
-        setResolveError(data.error ?? 'Account not found. Check the number and bank.');
+        setResolveError(data.error ?? 'Account not found. Check the details and try again.');
       } else {
-        setResolvedName(data.account_name); // e.g. "JOHN DOE SMITH"
+        setResolvedName(data.account_name);
       }
     } catch {
       setResolveError('Network error. Please check your connection and try again.');
@@ -197,7 +171,7 @@ export default function TransferModal({
     }
   };
 
-  // ── Form submit ────────────────────────────────────────────────────────────
+  // ── Submit ─────────────────────────────────────────────────────────────────
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setErrorText('');
@@ -210,34 +184,19 @@ export default function TransferModal({
     }
     if (amtNum > availableBalance) {
       setErrorText(
-        `Insufficient funds. Available: ₦${availableBalance.toLocaleString('en-NG', {
-          minimumFractionDigits: 2,
-        })}.`
+        `Insufficient funds. Available: ₦${availableBalance.toLocaleString('en-NG', { minimumFractionDigits: 2 })}.`
       );
       return;
     }
+
     if (transferType === 'bank') {
-      if (accountNumber.length !== 10) {
-        setErrorText('NUBAN Account Number must be exactly 10 digits.');
-        return;
-      }
-      if (isResolving) {
-        setErrorText('Still verifying account — please wait a moment.');
-        return;
-      }
-      if (!resolvedName) {
-        setErrorText(resolveError || 'Could not verify account. Check the number and bank.');
-        return;
-      }
+      if (accountNumber.length !== 10) { setErrorText('NUBAN Account Number must be exactly 10 digits.'); return; }
+      if (isResolving) { setErrorText('Still verifying account — please wait.'); return; }
+      if (!resolvedName) { setErrorText(resolveError || 'Could not verify account. Check the number and bank.'); return; }
     } else {
-      if (phoneNo.length < 10) {
-        setErrorText('PalmPay phone must be 10 or 11 digits.');
-        return;
-      }
-      if (!resolvedName) {
-        setErrorText('Could not resolve PalmPay user. Please try again.');
-        return;
-      }
+      if (phoneNo.length !== 10) { setErrorText('PalmPay phone must be exactly 10 digits.'); return; }
+      if (isResolving) { setErrorText('Still verifying PalmPay account — please wait.'); return; }
+      if (!resolvedName) { setErrorText(resolveError || 'Could not verify PalmPay account. Check the phone number.'); return; }
     }
 
     setIsSubmitting(true);
@@ -268,34 +227,25 @@ export default function TransferModal({
     };
 
     localStorage.setItem('np_last_receipt', JSON.stringify(receipt));
-
-    setTimeout(() => {
-      router.push('/receipt');
-    }, 300);
+    setTimeout(() => router.push('/receipt'), 300);
   };
 
-  // ── Styles ─────────────────────────────────────────────────────────────────
   const inputCls = `w-full px-3.5 py-2.5 rounded-xl text-sm outline-none border transition-all ${
     isDarkMode
       ? 'bg-wallet-dark-card border-wallet-dark-card-lighter focus:border-wallet-purple text-white'
       : 'bg-slate-50 border-slate-200 focus:border-wallet-purple text-slate-800'
   }`;
 
-  // ── Render ─────────────────────────────────────────────────────────────────
   return (
     <AnimatePresence>
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          {/* Backdrop */}
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             onClick={onClose}
             className="absolute inset-0 bg-black/60 backdrop-blur-sm"
           />
 
-          {/* Panel */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -307,23 +257,14 @@ export default function TransferModal({
             }`}
           >
             {/* Header */}
-            <div
-              className={`p-6 border-b flex justify-between items-center ${
-                isDarkMode ? 'border-wallet-dark-card-lighter' : 'border-slate-100'
-              }`}
-            >
+            <div className={`p-6 border-b flex justify-between items-center ${isDarkMode ? 'border-wallet-dark-card-lighter' : 'border-slate-100'}`}>
               <div>
                 <h3 className="font-display text-xl font-bold">Transfer Money</h3>
                 <p className={`text-xs mt-0.5 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
                   Zero routing commission on all transfers
                 </p>
               </div>
-              <button
-                onClick={onClose}
-                className={`p-2 rounded-full hover:scale-105 transition-transform ${
-                  isDarkMode ? 'bg-wallet-dark-card text-slate-400' : 'bg-slate-100 text-slate-600'
-                }`}
-              >
+              <button onClick={onClose} className={`p-2 rounded-full hover:scale-105 transition-transform ${isDarkMode ? 'bg-wallet-dark-card text-slate-400' : 'bg-slate-100 text-slate-600'}`}>
                 <X className="w-5 h-5" />
               </button>
             </div>
@@ -331,38 +272,22 @@ export default function TransferModal({
             {/* Form */}
             <form onSubmit={handleSubmit} className="p-6 space-y-4 max-h-[75vh] overflow-y-auto">
 
-              {/* Balance pill */}
-              <div
-                className={`p-3.5 rounded-xl flex items-center justify-between text-xs font-semibold ${
-                  isDarkMode
-                    ? 'bg-wallet-dark-card-lighter text-emerald-400'
-                    : 'bg-slate-100 text-emerald-600'
-                }`}
-              >
+              {/* Balance */}
+              <div className={`p-3.5 rounded-xl flex items-center justify-between text-xs font-semibold ${isDarkMode ? 'bg-wallet-dark-card-lighter text-emerald-400' : 'bg-slate-100 text-emerald-600'}`}>
                 <span>Wallet Balance</span>
                 <span className="font-mono text-sm font-bold">
                   ₦{availableBalance.toLocaleString('en-NG', { minimumFractionDigits: 2 })}
                 </span>
               </div>
 
-              {/* Tab toggle */}
+              {/* Type toggle */}
               <div className="flex gap-2 p-1 rounded-xl bg-zinc-500/10">
                 {(['bank', 'palmpay'] as const).map((t) => (
                   <button
-                    key={t}
-                    type="button"
-                    onClick={() => {
-                      setTransferType(t);
-                      setResolvedName('');
-                      setResolveError('');
-                      setErrorText('');
-                    }}
+                    key={t} type="button"
+                    onClick={() => { setTransferType(t); setResolvedName(''); setResolveError(''); setErrorText(''); }}
                     className={`flex-1 py-2 flex items-center justify-center gap-1.5 text-xs font-semibold rounded-lg transition-all ${
-                      transferType === t
-                        ? 'bg-wallet-purple text-white shadow'
-                        : isDarkMode
-                        ? 'text-slate-400 hover:text-white'
-                        : 'text-slate-600 hover:text-slate-800'
+                      transferType === t ? 'bg-wallet-purple text-white shadow' : isDarkMode ? 'text-slate-400 hover:text-white' : 'text-slate-600 hover:text-slate-800'
                     }`}
                   >
                     {t === 'bank' ? <Landmark className="w-3.5 h-3.5" /> : <Send className="w-3.5 h-3.5" />}
@@ -371,153 +296,100 @@ export default function TransferModal({
                 ))}
               </div>
 
-              {/* ── Bank fields ── */}
+              {/* Bank fields */}
               {transferType === 'bank' && (
                 <div className="space-y-3">
                   <div>
-                    <label className="text-xs text-slate-400 font-semibold mb-1 block">
-                      Receiving Bank
-                    </label>
+                    <label className="text-xs text-slate-400 font-semibold mb-1 block">Receiving Bank</label>
                     <select
                       value={selectedBank.code}
-                      onChange={(e) => {
-                        const bank = NIGERIAN_BANKS.find((b) => b.code === e.target.value);
-                        if (bank) setSelectedBank(bank);
-                      }}
+                      onChange={(e) => { const b = NIGERIAN_BANKS.find((b) => b.code === e.target.value); if (b) setSelectedBank(b); }}
                       className={inputCls}
                     >
                       {NIGERIAN_BANKS.map((bank) => (
-                        <option key={bank.code} value={bank.code}>
-                          {bank.name}
-                        </option>
+                        <option key={bank.code} value={bank.code}>{bank.name}</option>
                       ))}
                     </select>
                   </div>
-
                   <div>
-                    <label className="text-xs text-slate-400 font-semibold mb-1 block">
-                      Account Number (10 digits)
-                    </label>
+                    <label className="text-xs text-slate-400 font-semibold mb-1 block">Account Number (10 digits)</label>
                     <input
-                      type="text"
-                      inputMode="numeric"
-                      maxLength={10}
+                      type="text" inputMode="numeric" maxLength={10}
                       value={accountNumber}
                       onChange={(e) => setAccountNumber(e.target.value.replace(/\D/g, ''))}
                       placeholder="e.g. 0123456789"
                       className={`${inputCls} font-mono tracking-widest`}
                       required
                     />
-                    {/* Character counter */}
-                    <p className="text-right text-[10px] text-slate-400 mt-1 font-semibold">
-                      {accountNumber.length}/10
-                    </p>
+                    <p className="text-right text-[10px] text-slate-400 mt-1 font-semibold">{accountNumber.length}/10</p>
                   </div>
                 </div>
               )}
 
-              {/* ── PalmPay fields ── */}
+              {/* PalmPay fields */}
               {transferType === 'palmpay' && (
                 <div>
-                  <label className="text-xs text-slate-400 font-semibold mb-1 block">
-                    PalmPay Phone Number
-                  </label>
+                  <label className="text-xs text-slate-400 font-semibold mb-1 block">PalmPay Phone Number</label>
                   <input
-                    type="text"
-                    inputMode="numeric"
-                    maxLength={11}
+                    type="text" inputMode="numeric" maxLength={10}
                     value={phoneNo}
                     onChange={(e) => setPhoneNo(e.target.value.replace(/\D/g, ''))}
                     placeholder="e.g. 09060592810"
                     className={`${inputCls} font-mono tracking-widest`}
                     required
                   />
+                  <p className="text-right text-[10px] text-slate-400 mt-1 font-semibold">{phoneNo.length}/10</p>
                 </div>
               )}
 
-              {/* ── Name resolution result ── */}
+              {/* Resolution result */}
               {(isResolving || resolvedName || resolveError) && (
-                <div
-                  className={`p-4 rounded-xl flex items-center gap-3 border transition-colors ${
-                    resolveError
-                      ? 'bg-red-500/5 border-red-500/20'
-                      : isDarkMode
-                      ? 'bg-wallet-dark-card/60 border-wallet-dark-card-lighter'
-                      : 'bg-slate-50 border-slate-100'
-                  }`}
-                >
-                  <div
-                    className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${
-                      resolveError
-                        ? 'bg-red-500/10 text-red-500'
-                        : 'bg-wallet-purple/10 text-wallet-purple'
-                    }`}
-                  >
-                    {resolveError ? (
-                      <AlertCircle className="w-4 h-4" />
-                    ) : (
-                      <UserCheck className="w-4 h-4" />
-                    )}
+                <div className={`p-4 rounded-xl flex items-center gap-3 border transition-colors ${
+                  resolveError ? 'bg-red-500/5 border-red-500/20' : isDarkMode ? 'bg-wallet-dark-card/60 border-wallet-dark-card-lighter' : 'bg-slate-50 border-slate-100'
+                }`}>
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${resolveError ? 'bg-red-500/10 text-red-500' : 'bg-wallet-purple/10 text-wallet-purple'}`}>
+                    {resolveError ? <AlertCircle className="w-4 h-4" /> : <UserCheck className="w-4 h-4" />}
                   </div>
-
                   <div className="flex-1 min-w-0">
                     <span className="text-[10px] text-slate-400 block font-semibold">
                       {resolveError ? 'Resolution Failed' : 'Verified Account Name'}
                     </span>
-
                     {isResolving && (
                       <div className="flex items-center gap-1 mt-1">
                         {[100, 200, 300].map((d) => (
-                          <div
-                            key={d}
-                            className="w-1.5 h-1.5 bg-wallet-purple rounded-full animate-bounce"
-                            style={{ animationDelay: `${d}ms` }}
-                          />
+                          <div key={d} className="w-1.5 h-1.5 bg-wallet-purple rounded-full animate-bounce" style={{ animationDelay: `${d}ms` }} />
                         ))}
-                        <span className="text-xs font-medium text-slate-500 ml-1">
-                          Verifying 
-                        </span>
+                        <span className="text-xs font-medium text-slate-500 ml-1">Verifying…</span>
                       </div>
                     )}
-
                     {resolvedName && !isResolving && (
                       <div className="flex items-center gap-1.5 mt-0.5">
                         <BadgeCheck className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-                        <span className="text-sm font-bold text-wallet-purple truncate">
-                          {resolvedName}
-                        </span>
+                        <span className="text-sm font-bold text-wallet-purple truncate">{resolvedName}</span>
                       </div>
                     )}
-
                     {resolveError && !isResolving && (
-                      <span className="text-xs font-semibold text-red-500 mt-0.5 block">
-                        {resolveError}
-                      </span>
+                      <span className="text-xs font-semibold text-red-500 mt-0.5 block">{resolveError}</span>
                     )}
                   </div>
                 </div>
               )}
 
-              {/* ── Amount + Remark ── */}
+              {/* Amount + Remark */}
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="text-xs text-slate-400 font-semibold mb-1 block">Amount (₦)</label>
                   <input
-                    type="number"
-                    value={amount}
+                    type="number" value={amount}
                     onChange={(e) => { setAmount(e.target.value); setErrorText(''); }}
                     placeholder="Amount to send"
-                    className={inputCls}
-                    required
+                    className={inputCls} required
                   />
                 </div>
                 <div>
-                  <label className="text-xs text-slate-400 font-semibold mb-1 block">
-                    Remark (Optional)
-                  </label>
+                  <label className="text-xs text-slate-400 font-semibold mb-1 block">Remark (Optional)</label>
                   <input
-                    type="text"
-                    value={remark}
+                    type="text" value={remark}
                     onChange={(e) => setRemark(e.target.value)}
                     placeholder="e.g. rent, bills"
                     className={inputCls}
@@ -525,7 +397,7 @@ export default function TransferModal({
                 </div>
               </div>
 
-              {/* ── Form-level error ── */}
+              {/* Error */}
               {errorText && (
                 <div className="p-3 text-xs bg-red-500/10 border border-red-500/20 text-red-500 rounded-xl flex items-start gap-2">
                   <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
@@ -533,21 +405,16 @@ export default function TransferModal({
                 </div>
               )}
 
-              {/* ── Submit ── */}
+              {/* Submit */}
               <button
                 type="submit"
                 disabled={isSubmitting || isResolving}
                 className="w-full py-3.5 bg-wallet-purple hover:bg-wallet-purple-hover disabled:opacity-60 text-white rounded-xl text-sm font-bold shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-1.5"
               >
                 {isSubmitting ? (
-                  <>
-                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                    Processing…
-                  </>
+                  <><div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Processing…</>
                 ) : (
-                  <>
-                    Confirm &amp; Route Transfer <ArrowRight className="w-4 h-4" />
-                  </>
+                  <>Confirm &amp; Route Transfer <ArrowRight className="w-4 h-4" /></>
                 )}
               </button>
             </form>
