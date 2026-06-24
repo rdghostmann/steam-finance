@@ -432,7 +432,7 @@ export default function Home() {
                 {/* YESTERDAY'S EARNINGS ATTACHED BAR */}
                 <div
                   onClick={() => { }}
-                  className={`my-5 p-3.5 rounded-2xl flex items-center justify-between cursor-pointer transition-colors hover:bg-opacity-80 absolute-z ${getRelativeColor('bg-purple-950/90 text-white', 'bg-wallet-dark-card-lighter text-white border border-wallet-dark-card-lighter')
+                  className={`my-5 p-3.5 rounded-2xl flex items-center justify-between cursor-pointer transition-colors hover:bg-opacity-80 absolute-z ${getRelativeColor('bg-wallet-dark-card text-white', 'bg-wallet-dark-card-lighter text-white border border-wallet-dark-card-lighter')
                     }`}
                 >
                   <div className="flex items-center gap-2">
@@ -529,10 +529,10 @@ export default function Home() {
                   }`}
               >
                 <div>
-                  <h4 className="font-display font-bold text-[12px] uppercase tracking-wider text-slate-500 leading-tight">
+                  <h4 className="font-display font-bold text-[12px] uppercase tracking-wider text-slate-100 leading-tight">
                     Spend & Save Interest
                   </h4>
-                  <p className={`text-xs font-bold mt-1 ${getRelativeColor('text-slate-800', 'text-white')}`}>
+                  <p className={`text-xs font-bold mt-1 ${getRelativeColor('text-slate-800', 'text-slate-400')}`}>
                     ₦0.02 Interest Payout
                   </p>
                 </div>
@@ -543,10 +543,10 @@ export default function Home() {
               </div>
 
               {/* STAGE E: SERVICES INSTANT UTILITY GRID */}
-              <div className="grid grid-cols-4 gap-2.5 mt-3.5 bg-wallet-dark-card rounded-2xl">
+              <div className="grid grid-cols-4 gap-2 mt-3.5 bg-[#18161b] rounded-2xl">
                 {[
                   { id: 'airtime', label: 'Airtime', icon: '/icons/airtime.png' },
-                  { id: 'data', label: 'Data', isFree: true, icon: '/icons/data.png' },
+                  { id: 'data', label: 'Data', icon: '/icons/data.png' },
                   { id: 'betting', label: 'Betting', icon: '/icons/betting.png' },
                   { id: 'electricity', label: 'Electricity', icon: '/icons/electricity.png' },
                   { id: 'refer', label: 'Refer & Earn', icon: '/icons/refer.png' },
@@ -563,11 +563,8 @@ export default function Home() {
                       'bg-wallet-dark-card text-white hover:bg-wallet-dark-card-lighter'
                     )}`}
                   >
-                    {serv.isFree && (
-                      <span className="absolute -top-1.5 right-1 text-[7px] bg-emerald-500 text-white font-bold px-1 py-0.5 rounded-full tracking-wider leading-none scale-90">
-                        FREE
-                      </span>
-                    )}
+                   
+                    
 
                     <div className={`p-2 rounded-xl mb-1.5 `}>
                       <Image
