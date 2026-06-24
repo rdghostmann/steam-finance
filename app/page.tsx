@@ -439,47 +439,66 @@ const [mutualFunds, setMutualFunds] = useState<number>(() => {
                 </div>
               </div>
 
-              {/* STAGE C: QUICK ACTION SEGMENT BUTTONS */}
-              <div className="grid grid-cols-4 gap-2.5">
-                {[
-                  { id: 'bank', label: 'To Bank', sub: '0 fee', isHot: true },
-                  { id: 'palmpay', label: 'To PalmPay' },
-                  { id: 'savings', label: 'Savings' },
-                  { id: 'card', label: 'ATM Card' }
-                ].map((act) => {
-                  const getIcon = (id: string) => {
-                    switch (id) {
-                      case 'bank': return <Landmark className="w-5 h-5 text-violet-400" />;
-                      case 'palmpay': return <Smartphone className="w-5 h-5 text-violet-400" />;
-                      case 'savings': return <PiggyBank className="w-5 h-5 text-violet-400" />;
-                      default: return <CreditCard className="w-5 h-5 text-violet-400" />;
-                    }
-                  };
-                  return (
-                    <button
-                      key={act.id}
-                      onClick={() => handleQuickAction(act.id)}
-                      className={`p-3 rounded-2xl bg-opacity-70 transition-all hover:scale-[1.04] hover:-translate-y-0.5 active:scale-95 cursor-pointer flex flex-col items-center relative text-center justify-center ${getRelativeColor(
-                        'bg-white border border-slate-200/50 shadow-sm text-slate-800',
-                        'bg-wallet-dark-card hover:bg-wallet-dark-card-lighter text-white'
-                      )
-                        }`}
-                    >
-                      {act.isHot && (
-                        <span className="absolute -top-1.5 -right-1 text-[8px] bg-red-500 font-bold text-white px-1.5 py-0.5 rounded-full scale-90">
-                          0 fee
-                        </span>
-                      )}
-                      <div className={`p-2 rounded-xl mb-1.5 ${getRelativeColor('bg-slate-50', 'bg-wallet-dark')}`}>
-                        {getIcon(act.id)}
-                      </div>
-                      <span className="text-[8px] font-bold leading-tight select-none">
-                        {act.label}
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
+            {/* STAGE C: QUICK ACTION SEGMENT BUTTONS */}
+<div className="grid grid-cols-4 gap-2.5">
+  {[
+    {
+      id: 'bank',
+      label: 'To Bank',
+      isHot: true,
+      icon: '/icons/tobank.png',
+    },
+    {
+      id: 'palmpay',
+      label: 'To PalmPay',
+      icon: '/icons/topalmpay.png',
+    },
+    {
+      id: 'savings',
+      label: 'Savings',
+      icon: '/icons/savings.png',
+    },
+    {
+      id: 'card',
+      label: 'ATM Card',
+      icon: '/icons/card.png',
+    },
+  ].map((act) => (
+    <button
+      key={act.id}
+      onClick={() => handleQuickAction(act.id)}
+      className={`p-3 rounded-2xl bg-opacity-70 transition-all hover:scale-[1.04] hover:-translate-y-0.5 active:scale-95 cursor-pointer flex flex-col items-center relative text-center justify-center ${getRelativeColor(
+        'bg-white border border-slate-200/50 shadow-sm text-slate-800',
+        'bg-wallet-dark-card hover:bg-wallet-dark-card-lighter text-white'
+      )}`}
+    >
+      {act.isHot && (
+        <span className="absolute -top-1.5 -right-1 text-[8px] bg-red-500 font-bold text-white px-1.5 py-0.5 rounded-full scale-90">
+          0 fee
+        </span>
+      )}
+
+      <div
+        className={` mb-1.5 (
+          'bg-slate-50',
+        
+        )}`}
+      >
+        <Image
+          src={act.icon}
+          alt={act.label}
+          width={40}
+          height={40}
+          className="w-10 h-10 object-contain"
+        />
+      </div>
+
+      <span className="text-[8px] font-bold leading-tight select-none">
+        {act.label}
+      </span>
+    </button>
+  ))}
+</div>
 
               {/* STAGE D: SPEND & SAVE CAROUSEL PANEL */}
               <div
@@ -537,7 +556,7 @@ const [mutualFunds, setMutualFunds] = useState<number>(() => {
                         alt={serv.label}
                         width={65}
                         height={35}
-                        className="w-6 h-6 object-contain"
+                        className="w-10 h-10 object-contain"
                       />
                     </div>
 
