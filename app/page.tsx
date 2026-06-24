@@ -385,7 +385,7 @@ export default function Home() {
 
               {/* STAGE B: AVAILABLE BALANCE CARD */}
               <div className="mt-4">
-                <div className="rounded-3xl p-5 bg-wallet-purple text-white relative overflow-hidden shadow-lg shadow-wallet-purple/10">
+                <div className="rounded-3xl p-5 bg-[#885bfe] text-white relative overflow-hidden shadow-lg shadow-wallet-purple/10">
                   {/* Decorative background vectors */}
                   <div className="absolute right-0 top-0 w-32 h-32 bg-white/5 rounded-full translate-x-12 -translate-y-12 blur-xl pointer-events-none" />
                   <div className="absolute left-0 bottom-0 w-24 h-24 bg-white/5 rounded-full -translate-x-12 translate-y-12 blur-lg pointer-events-none" />
@@ -432,7 +432,7 @@ export default function Home() {
                 {/* YESTERDAY'S EARNINGS ATTACHED BAR */}
                 <div
                   onClick={() => { }}
-                  className={`my-5 p-3.5 rounded-2xl flex items-center justify-between cursor-pointer transition-colors hover:bg-opacity-80 absolute-z ${getRelativeColor('bg-wallet-dark-card text-white', 'bg-wallet-dark-card-lighter text-white border border-wallet-dark-card-lighter')
+                  className={`my-5 p-3.5 rounded-2xl flex items-center justify-between cursor-pointer  hover:bg-opacity-80 absolute-z ${getRelativeColor('bg-wallet-dark-card text-white', 'bg-wallet-dark-card text-white  ')
                     }`}
                 >
                   <div className="flex items-center gap-2">
@@ -491,11 +491,7 @@ export default function Home() {
                       'bg-wallet-dark-card hover:bg-wallet-dark-card-lighter text-white'
                     )}`}
                   >
-                    {act.isHot && (
-                      <span className="absolute -top-1.5 -right-1 text-[8px] bg-red-500 font-bold text-white px-1.5 py-0.5 rounded-full scale-90">
-                        0 fee
-                      </span>
-                    )}
+                   
 
                     <div
                       className={` mb-1.5 (
@@ -524,7 +520,7 @@ export default function Home() {
                 onClick={() => { }}
                 className={`mt-3.5 p-4 rounded-3xl cursor-pointer transition-all border flex justify-between items-center ${getRelativeColor(
                   'bg-white border-slate-200/60 shadow-sm hover:border-slate-300',
-                  'bg-wallet-dark-card border-wallet-dark-card-lighter hover:bg-wallet-dark-card-lighter'
+                  'bg-wallet-dark-card  hover:bg-wallet-dark-card-lighter'
                 )
                   }`}
               >

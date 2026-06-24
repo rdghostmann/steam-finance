@@ -115,7 +115,7 @@ function Watermark() {
               className="text-[10px] font-extrabold text-[#7C3AED] tracking-widest"
               style={{ fontStyle: 'italic' }}
             >
-              nairapay
+              palmpay
             </span>
           </div>
         ))
@@ -186,7 +186,7 @@ export default function ReceiptPage() {
 
     try {
       const blob = await captureReceiptAsBlob(receiptRef.current);
-      const file = new File([blob], 'nairapay-receipt.png', { type: 'image/png' });
+      const file = new File([blob], 'palmpay-receipt.png', { type: 'image/png' });
 
       // Web Share API level 2 — can share files (supported on Android Chrome & iOS Safari)
       if (
@@ -195,7 +195,7 @@ export default function ReceiptPage() {
       ) {
         try {
           await navigator.share({
-            title: 'NairaPay Receipt',
+            title: 'PalmPay Receipt',
             text: `₦${formatAmount(receipt.amount)} sent to ${receipt.recipientName}`,
             files: [file],
           });
@@ -300,7 +300,7 @@ export default function ReceiptPage() {
             <div className="flex items-center gap-2.5 mb-6">
               <NairaPayIcon />
               <span className="text-[24px] font-extrabold text-gray-900 tracking-tight">
-                NairaPay
+               PalmPay
               </span>
             </div>
 
