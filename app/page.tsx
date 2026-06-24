@@ -50,48 +50,48 @@ export default function Home() {
     return cached ? parseFloat(cached) : 0.02;
   });
 
- const [transactions, setTransactions] = useState<Transaction[]>(() => {
-  if (typeof window === "undefined") return INITIAL_TRANSACTIONS;
+  const [transactions, setTransactions] = useState<Transaction[]>(() => {
+    if (typeof window === "undefined") return INITIAL_TRANSACTIONS;
 
-  const cached = localStorage.getItem("np_transactions");
-  return cached ? JSON.parse(cached) : INITIAL_TRANSACTIONS;
-});
+    const cached = localStorage.getItem("np_transactions");
+    return cached ? JSON.parse(cached) : INITIAL_TRANSACTIONS;
+  });
 
-const [notifications, setNotifications] = useState<AppNotification[]>(() => {
-  if (typeof window === "undefined") return INITIAL_NOTIFICATIONS;
+  const [notifications, setNotifications] = useState<AppNotification[]>(() => {
+    if (typeof window === "undefined") return INITIAL_NOTIFICATIONS;
 
-  const cached = localStorage.getItem("np_notifications");
-  return cached ? JSON.parse(cached) : INITIAL_NOTIFICATIONS;
-});
+    const cached = localStorage.getItem("np_notifications");
+    return cached ? JSON.parse(cached) : INITIAL_NOTIFICATIONS;
+  });
 
-const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
-  if (typeof window === "undefined") return true;
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
+    if (typeof window === "undefined") return true;
 
-  const cached = localStorage.getItem("np_darkmode");
-  return cached ? cached === "true" : true;
-});
+    const cached = localStorage.getItem("np_darkmode");
+    return cached ? cached === "true" : true;
+  });
 
-const [showBalance, setShowBalance] = useState<boolean>(() => {
-  if (typeof window === "undefined") return true;
+  const [showBalance, setShowBalance] = useState<boolean>(() => {
+    if (typeof window === "undefined") return true;
 
-  const cached = localStorage.getItem("np_show_balance");
-  return cached ? cached === "true" : true;
-});
+    const cached = localStorage.getItem("np_show_balance");
+    return cached ? cached === "true" : true;
+  });
 
-// --- Portfolio allocations --
-const [cashboxSavings, setCashboxSavings] = useState<number>(() => {
-  if (typeof window === "undefined") return 12500;
+  // --- Portfolio allocations --
+  const [cashboxSavings, setCashboxSavings] = useState<number>(() => {
+    if (typeof window === "undefined") return 12500;
 
-  const cached = localStorage.getItem("np_cashbox_savings");
-  return cached ? parseFloat(cached) : 12500;
-});
+    const cached = localStorage.getItem("np_cashbox_savings");
+    return cached ? parseFloat(cached) : 12500;
+  });
 
-const [mutualFunds, setMutualFunds] = useState<number>(() => {
-  if (typeof window === "undefined") return 48000;
+  const [mutualFunds, setMutualFunds] = useState<number>(() => {
+    if (typeof window === "undefined") return 48000;
 
-  const cached = localStorage.getItem("np_mutual_funds");
-  return cached ? parseFloat(cached) : 48000;
-});
+    const cached = localStorage.getItem("np_mutual_funds");
+    return cached ? parseFloat(cached) : 48000;
+  });
 
   // --- Modal Visibility States ---
   const [historyOpen, setHistoryOpen] = useState(false);
@@ -313,9 +313,9 @@ const [mutualFunds, setMutualFunds] = useState<number>(() => {
   };
 
   return (
-    <div className={`min-h-screen py-6 px-4 md:px-8 transition-colors duration-300 font-sans  ${getRelativeColor(
+    <div className={`min-h-screen py-2 px-4 md:px-8 transition-colors duration-300 font-sans  ${getRelativeColor(
       'bg-slate-200 border-slate-300 shadow-slate-100',
-      'bg-[#1F1B2C] border-[#2C2640] shadow-slate-950/20'
+      'bg-[#110f17] border-[#2C2640] shadow-slate-950/20'
     )
       }`}>
 
@@ -328,7 +328,7 @@ const [mutualFunds, setMutualFunds] = useState<number>(() => {
           {/* Mobilizer Screen Wrapper */}
           <div className={`w-full relative transition-all shadow-2xl ${getRelativeColor(
             'bg-slate-200 border-slate-300 shadow-slate-100',
-            'bg-[#1F1B2C] border-[#2C2640] shadow-slate-950/20'
+            'bg-[#110f17] border-[#2C2640] shadow-slate-950/20'
           )
             }`}>
 
@@ -344,7 +344,7 @@ const [mutualFunds, setMutualFunds] = useState<number>(() => {
                 {/* Profile Pic & Welcome */}
                 <div className="flex items-center gap-2.5">
                   <div className="w-9 h-9 rounded-full bg-violet-600 border border-violet-400 flex items-center justify-center shadow">
-                   <UserRound className="" />
+                    <UserRound className="" />
                   </div>
                   <div>
                     <h2 className="font-display font-medium text-xs text-slate-400">Hi, FRIDAY</h2>
@@ -363,14 +363,14 @@ const [mutualFunds, setMutualFunds] = useState<number>(() => {
                   </button>
 
                   <button
-                    onClick={() => {}}
+                    onClick={() => { }}
                     className={`p-1 hover:scale-110 active:scale-90 transition-transform cursor-pointer ${getRelativeColor('text-slate-600', 'text-white')}`}
                   >
                     <Headphones className="w-5 h-5" />
                   </button>
 
                   <button
-                    onClick={() => {}}
+                    onClick={() => { }}
                     className="relative p-1 hover:scale-110 active:scale-90 transition-transform cursor-pointer"
                   >
                     <Bell className={`w-5 h-5 ${getRelativeColor('text-slate-600', 'text-white')}`} />
@@ -393,8 +393,14 @@ const [mutualFunds, setMutualFunds] = useState<number>(() => {
                   {/* Top line */}
                   <div className="flex justify-between items-center">
                     <div className="flex items-center gap-1.5 cursor-pointer" onClick={() => setShowBalance(!showBalance)}>
-                      <div className="w-2 h-2 rounded-full bg-wallet-green animate-ping" />
-                      <span className="text-[8px] font-bold text-green-500 uppercase tracking-widest flex items-center gap-1">
+                      <Image
+                        src="/icons/check.png"
+                        alt="Balance Indicator"
+                        width={46}
+                        height={46}
+                        className="w-6 h-6 object-contain"
+                      />
+                      <span className="text-[8px] font-bold text-white uppercase tracking-widest flex items-center gap-1">
                         Available Balance
                       </span>
                       {showBalance ? <Eye className="w-3.5 h-3.5 text-white/70" /> : <EyeOff className="w-3.5 h-3.5 text-white/70" />}
@@ -425,84 +431,97 @@ const [mutualFunds, setMutualFunds] = useState<number>(() => {
 
                 {/* YESTERDAY'S EARNINGS ATTACHED BAR */}
                 <div
-                  onClick={() => {}}
+                  onClick={() => { }}
                   className={`my-5 p-3.5 rounded-2xl flex items-center justify-between cursor-pointer transition-colors hover:bg-opacity-80 absolute-z ${getRelativeColor('bg-purple-950/90 text-white', 'bg-wallet-dark-card-lighter text-white border border-wallet-dark-card-lighter')
                     }`}
                 >
                   <div className="flex items-center gap-2">
-                    <span className="p-1 px-1.5 bg-wallet-purple/20 rounded-md text-[10px] flex items-center justify-center font-bold">₦</span>
+                    <div className="p-1  flex items-center justify-center">
+                      <Image
+                        src="/icons/earnings.png"
+                        alt="Earnings"
+                        width={20}
+                        height={20}
+                        className="w-5 h-5 object-contain"
+                      />
+                    </div>
+
                     <span className="text-[11px] font-bold tracking-tight">
-                      Yesterday&apos; Earnings: <span className="text-wallet-green font-mono">+{formatNaira(yesterdayEarnings)}</span> <span className="opacity-60 font-semibold">(Updating)</span>
+                      Yesterday&apos;s Earnings:
+                      <span className="text-wallet-green font-mono">
+                        +{formatNaira(yesterdayEarnings)}
+                      </span>
+                      <span className="opacity-60 font-semibold"> (Updating)</span>
                     </span>
                   </div>
                   <ChevronRight className="w-4 h-4 opacity-70" />
                 </div>
               </div>
 
-            {/* STAGE C: QUICK ACTION SEGMENT BUTTONS */}
-<div className="grid grid-cols-4 gap-2.5">
-  {[
-    {
-      id: 'bank',
-      label: 'To Bank',
-      isHot: true,
-      icon: '/icons/tobank.png',
-    },
-    {
-      id: 'palmpay',
-      label: 'To PalmPay',
-      icon: '/icons/topalmpay.png',
-    },
-    {
-      id: 'savings',
-      label: 'Savings',
-      icon: '/icons/savings.png',
-    },
-    {
-      id: 'card',
-      label: 'ATM Card',
-      icon: '/icons/card.png',
-    },
-  ].map((act) => (
-    <button
-      key={act.id}
-      onClick={() => handleQuickAction(act.id)}
-      className={`p-3 rounded-2xl bg-opacity-70 transition-all hover:scale-[1.04] hover:-translate-y-0.5 active:scale-95 cursor-pointer flex flex-col items-center relative text-center justify-center ${getRelativeColor(
-        'bg-white border border-slate-200/50 shadow-sm text-slate-800',
-        'bg-wallet-dark-card hover:bg-wallet-dark-card-lighter text-white'
-      )}`}
-    >
-      {act.isHot && (
-        <span className="absolute -top-1.5 -right-1 text-[8px] bg-red-500 font-bold text-white px-1.5 py-0.5 rounded-full scale-90">
-          0 fee
-        </span>
-      )}
+              {/* STAGE C: QUICK ACTION SEGMENT BUTTONS */}
+              <div className="grid grid-cols-4 gap-2.5 ">
+                {[
+                  {
+                    id: 'bank',
+                    label: 'To Bank',
+                    isHot: true,
+                    icon: '/icons/tobank.png',
+                  },
+                  {
+                    id: 'palmpay',
+                    label: 'To PalmPay',
+                    icon: '/icons/topalmpay.png',
+                  },
+                  {
+                    id: 'savings',
+                    label: 'Savings',
+                    icon: '/icons/savings.png',
+                  },
+                  {
+                    id: 'card',
+                    label: 'ATM Card',
+                    icon: '/icons/card.png',
+                  },
+                ].map((act) => (
+                  <button
+                    key={act.id}
+                    onClick={() => handleQuickAction(act.id)}
+                    className={`p-3 rounded-2xl bg-opacity-70 transition-all hover:scale-[1.04] hover:-translate-y-0.5 active:scale-95 cursor-pointer flex flex-col items-center relative text-center justify-center ${getRelativeColor(
+                      'bg-white border border-slate-200/50 shadow-sm text-slate-800',
+                      'bg-wallet-dark-card hover:bg-wallet-dark-card-lighter text-white'
+                    )}`}
+                  >
+                    {act.isHot && (
+                      <span className="absolute -top-1.5 -right-1 text-[8px] bg-red-500 font-bold text-white px-1.5 py-0.5 rounded-full scale-90">
+                        0 fee
+                      </span>
+                    )}
 
-      <div
-        className={` mb-1.5 (
+                    <div
+                      className={` mb-1.5 (
           'bg-slate-50',
         
         )}`}
-      >
-        <Image
-          src={act.icon}
-          alt={act.label}
-          width={40}
-          height={40}
-          className="w-10 h-10 object-contain"
-        />
-      </div>
+                    >
+                      <Image
+                        src={act.icon}
+                        alt={act.label}
+                        width={40}
+                        height={40}
+                        className="w-10 h-10 object-contain"
+                      />
+                    </div>
 
-      <span className="text-[8px] font-bold leading-tight select-none">
-        {act.label}
-      </span>
-    </button>
-  ))}
-</div>
+                    <span className="text-[8px] font-bold leading-tight select-none">
+                      {act.label}
+                    </span>
+                  </button>
+                ))}
+              </div>
 
               {/* STAGE D: SPEND & SAVE CAROUSEL PANEL */}
               <div
-                onClick={() => {}}
+                onClick={() => { }}
                 className={`mt-3.5 p-4 rounded-3xl cursor-pointer transition-all border flex justify-between items-center ${getRelativeColor(
                   'bg-white border-slate-200/60 shadow-sm hover:border-slate-300',
                   'bg-wallet-dark-card border-wallet-dark-card-lighter hover:bg-wallet-dark-card-lighter'
@@ -524,16 +543,16 @@ const [mutualFunds, setMutualFunds] = useState<number>(() => {
               </div>
 
               {/* STAGE E: SERVICES INSTANT UTILITY GRID */}
-              <div className="grid grid-cols-4 gap-2.5 mt-3.5">
+              <div className="grid grid-cols-4 gap-2.5 mt-3.5 bg-wallet-dark-card rounded-2xl">
                 {[
                   { id: 'airtime', label: 'Airtime', icon: '/icons/airtime.png' },
                   { id: 'data', label: 'Data', isFree: true, icon: '/icons/data.png' },
                   { id: 'betting', label: 'Betting', icon: '/icons/betting.png' },
-                  { id: 'electricity', label: 'Electricity', icon: '/icons/electricity.png'},
-                  { id: 'refer', label: 'Refer & Earn', icon: '/icons/refer.png'},
+                  { id: 'electricity', label: 'Electricity', icon: '/icons/electricity.png' },
+                  { id: 'refer', label: 'Refer & Earn', icon: '/icons/refer.png' },
                   { id: 'insurance', label: 'Insurance', icon: '/icons/insurance.png' },
-                  { id: 'loan', label: 'Loan', icon: '/icons/loan.png'},
-                  { id: 'more', label: 'More', icon: '/icons/more.png'}
+                  { id: 'loan', label: 'Loan', icon: '/icons/loan.png' },
+                  { id: 'more', label: 'More', icon: '/icons/more.png' }
                 ].map((serv) => (
                   <div
                     key={serv.id}
