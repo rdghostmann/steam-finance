@@ -531,13 +531,13 @@ const [mutualFunds, setMutualFunds] = useState<number>(() => {
                       </span>
                     )}
 
-                    <div className={`p-2 rounded-xl mb-1.5 }>
+                    <div className={`p-2 rounded-xl mb-1.5 `}>
                       <Image
                         src={serv.icon}
                         alt={serv.label}
                         width={65}
                         height={35}
-                        className="w-5 h-5 object-contain"
+                        className="w-6 h-6 object-contain"
                       />
                     </div>
 
