@@ -3,6 +3,7 @@
 "use client"
 
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 // import { motion, AnimatePresence } from 'motion/react';
 import {
   Bell,
@@ -14,18 +15,10 @@ import {
   Smartphone,
   PiggyBank,
   CreditCard,
-  Phone,
-  Wifi,
-  Trophy,
-  Zap,
   Gift,
-  Banknote,
-  LayoutGrid,
   Sun,
   Moon,
-UserRound,
-  ShieldCheck,
-
+  UserRound,
 } from 'lucide-react';
 
 // import { Transaction, AppNotification } from './types';
@@ -307,7 +300,6 @@ const [mutualFunds, setMutualFunds] = useState<number>(() => {
       setTransferPreset('palmpay');
       setTransferOpen(true);
     } else if (action === 'savings') {
-      // open yesterday earnings for yield graphs + compound calculators!
       setEarningsWidgetOpen(true);
     } else if (action === 'card') {
       setVirtualCardOpen(true);
@@ -330,8 +322,6 @@ const [mutualFunds, setMutualFunds] = useState<number>(() => {
       {/* Main Responsive Grid Layout */}
       <div className="w-full z-10">
 
-
-
         {/* CENTER COLUMN: The Sleek Mobile Device Frame (Resilient & fully functional) */}
         <div className="">
 
@@ -341,8 +331,6 @@ const [mutualFunds, setMutualFunds] = useState<number>(() => {
             'bg-[#1F1B2C] border-[#2C2640] shadow-slate-950/20'
           )
             }`}>
-
-
 
             {/* Simulated Active Application */}
             <div className={`w-full rounded-[2.5rem] px-2 pt-8 pb-6 overflow-hidden min-h-1 flex flex-col justify-between transition-colors duration-300 ${getRelativeColor(
@@ -376,7 +364,6 @@ const [mutualFunds, setMutualFunds] = useState<number>(() => {
 
                   <button
                     onClick={() => {}}
-                    // onClick={() => handleQuickAction('savings')}
                     className={`p-1 hover:scale-110 active:scale-90 transition-transform cursor-pointer ${getRelativeColor('text-slate-600', 'text-white')}`}
                   >
                     <Headphones className="w-5 h-5" />
@@ -384,7 +371,6 @@ const [mutualFunds, setMutualFunds] = useState<number>(() => {
 
                   <button
                     onClick={() => {}}
-                    // onClick={() => setNotificationsOpen(true)}
                     className="relative p-1 hover:scale-110 active:scale-90 transition-transform cursor-pointer"
                   >
                     <Bell className={`w-5 h-5 ${getRelativeColor('text-slate-600', 'text-white')}`} />
@@ -430,7 +416,7 @@ const [mutualFunds, setMutualFunds] = useState<number>(() => {
 
                     <button
                       onClick={() => setAddMoneyOpen(true)}
-                      className="px-4 py-1.5 bg-black/30 hover:bg-black/50 text-white rounded-full text-xs font-bold transition-all border border-white/20 active:scale-95 shadow shrink-0"
+                      className="px-4.5 py-1.5 bg-black/30 hover:bg-black/50 text-white rounded-full text-xs font-bold transition-all border border-white/20 active:scale-95 shadow shrink-0"
                     >
                       Add Money
                     </button>
@@ -440,7 +426,6 @@ const [mutualFunds, setMutualFunds] = useState<number>(() => {
                 {/* YESTERDAY'S EARNINGS ATTACHED BAR */}
                 <div
                   onClick={() => {}}
-                  // onClick={() => setEarningsWidgetOpen(true)}
                   className={`my-5 p-3.5 rounded-2xl flex items-center justify-between cursor-pointer transition-colors hover:bg-opacity-80 absolute-z ${getRelativeColor('bg-purple-950/90 text-white', 'bg-wallet-dark-card-lighter text-white border border-wallet-dark-card-lighter')
                     }`}
                 >
@@ -473,7 +458,6 @@ const [mutualFunds, setMutualFunds] = useState<number>(() => {
                   return (
                     <button
                       key={act.id}
-                      // onClick={() => { }}
                       onClick={() => handleQuickAction(act.id)}
                       className={`p-3 rounded-2xl bg-opacity-70 transition-all hover:scale-[1.04] hover:-translate-y-0.5 active:scale-95 cursor-pointer flex flex-col items-center relative text-center justify-center ${getRelativeColor(
                         'bg-white border border-slate-200/50 shadow-sm text-slate-800',
@@ -500,7 +484,6 @@ const [mutualFunds, setMutualFunds] = useState<number>(() => {
               {/* STAGE D: SPEND & SAVE CAROUSEL PANEL */}
               <div
                 onClick={() => {}}
-                // onClick={() => setEarningsWidgetOpen(true)}
                 className={`mt-3.5 p-4 rounded-3xl cursor-pointer transition-all border flex justify-between items-center ${getRelativeColor(
                   'bg-white border-slate-200/60 shadow-sm hover:border-slate-300',
                   'bg-wallet-dark-card border-wallet-dark-card-lighter hover:bg-wallet-dark-card-lighter'
@@ -518,61 +501,51 @@ const [mutualFunds, setMutualFunds] = useState<number>(() => {
 
                 <div className="text-right">
                   <span className="text-[10px] text-slate-500 font-bold block">Today 6:49 AM</span>
-                 
                 </div>
               </div>
 
               {/* STAGE E: SERVICES INSTANT UTILITY GRID */}
               <div className="grid grid-cols-4 gap-2.5 mt-3.5">
                 {[
-                  { id: 'airtime', label: 'Airtime', iconColor: 'text-indigo-400 bg-indigo-500/10' },
-                  { id: 'data', label: 'Data', isFree: true, iconColor: 'text-emerald-400 bg-emerald-500/10' },
-                  { id: 'betting', label: 'Betting', iconColor: 'text-cyan-400 bg-cyan-500/10' },
-                  { id: 'electricity', label: 'Electricity', iconColor: 'text-amber-500 bg-amber-500/10' },
-                  { id: 'refer', label: 'Refer & Earn', iconColor: 'text-rose-400 bg-rose-500/10' },
-                  { id: 'insurance', label: 'Insurance', iconColor: 'text-sky-400 bg-sky-500/10' },
-                  { id: 'loan', label: 'Loan', iconColor: 'text-purple-400 bg-purple-500/10' },
-                  { id: 'more', label: 'More', iconColor: 'text-zinc-400 bg-zinc-500/10' }
-                ].map((serv) => {
-                  const getServiceIcon = (id: string) => {
-                    switch (id) {
-                      case 'airtime': return <Phone className="w-4 h-4" />;
-                      case 'data': return <Wifi className="w-4 h-4" />;
-                      case 'betting': return <Trophy className="w-4 h-4" />;
-                      case 'electricity': return <Zap className="w-4 h-4" />;
-                      case 'refer': return <Gift className="w-4 h-4" />;
-                      case 'insurance': return <ShieldCheck className="w-4 h-4" />;
-                      case 'loan': return <Banknote className="w-4 h-4 animate-pulse" />;
-                      default: return <LayoutGrid className="w-4 h-4" />;
-                    }
-                  };
-                  return (
-                    <div
-                      key={serv.id}
-                      onClick={() => { }}
-                      // onClick={() => handleServiceClick(serv.id as ServiceType)}
-                      className={`p-2 py-3 rounded-2xl cursor-pointer text-center flex flex-col items-center justify-center transition-all hover:scale-105 hover:bg-opacity-80 select-none relative ${getRelativeColor(
-                        'bg-white border border-slate-200/50 shadow-sm text-slate-800',
-                        'bg-wallet-dark-card text-white hover:bg-wallet-dark-card-lighter'
-                      )
-                        }`}
-                    >
-                      {serv.isFree && (
-                        <span className="absolute -top-1.5 right-1 text-[7px] bg-emerald-500 text-white font-bold px-1 py-0.5 rounded-full tracking-wider leading-none scale-90">
-                          FREE
-                        </span>
-                      )}
-
-                      <div className={`p-2 rounded-xl mb-1.5 ${serv.iconColor}`}>
-                        {getServiceIcon(serv.id)}
-                      </div>
-
-                      <span className="text-[9px] font-bold leading-tight truncate w-full">
-                        {serv.label}
+                  { id: 'airtime', label: 'Airtime', icon: '/icons/airtime.png' },
+                  { id: 'data', label: 'Data', isFree: true, icon: '/icons/data.png' },
+                  { id: 'betting', label: 'Betting', icon: '/icons/betting.png' },
+                  { id: 'electricity', label: 'Electricity', icon: '/icons/electricity.png'},
+                  { id: 'refer', label: 'Refer & Earn', icon: '/icons/refer.png'},
+                  { id: 'insurance', label: 'Insurance', icon: '/icons/insurance.png' },
+                  { id: 'loan', label: 'Loan', icon: '/icons/loan.png'},
+                  { id: 'more', label: 'More', icon: '/icons/more.png'}
+                ].map((serv) => (
+                  <div
+                    key={serv.id}
+                    onClick={() => { }}
+                    // onClick={() => handleServiceClick(serv.id as ServiceType)}
+                    className={`p-2 py-3 rounded-2xl cursor-pointer text-center flex flex-col items-center justify-center transition-all hover:scale-105 hover:bg-opacity-80 select-none relative ${getRelativeColor(
+                      'bg-white border border-slate-200/50 shadow-sm text-slate-800',
+                      'bg-wallet-dark-card text-white hover:bg-wallet-dark-card-lighter'
+                    )}`}
+                  >
+                    {serv.isFree && (
+                      <span className="absolute -top-1.5 right-1 text-[7px] bg-emerald-500 text-white font-bold px-1 py-0.5 rounded-full tracking-wider leading-none scale-90">
+                        FREE
                       </span>
+                    )}
+
+                    <div className={`p-2 rounded-xl mb-1.5 }>
+                      <Image
+                        src={serv.icon}
+                        alt={serv.label}
+                        width={65}
+                        height={35}
+                        className="w-5 h-5 object-contain"
+                      />
                     </div>
-                  );
-                })}
+
+                    <span className="text-[9px] font-bold leading-tight truncate w-full">
+                      {serv.label}
+                    </span>
+                  </div>
+                ))}
               </div>
 
               {/* STAGE F: DAILY COMMISSION REWARD BANNER */}
@@ -609,7 +582,6 @@ const [mutualFunds, setMutualFunds] = useState<number>(() => {
                 {/* CashBox Card */}
                 <div
                   onClick={() => { }}
-                  // onClick={() => setEarningsWidgetOpen(true)}
                   className={`p-4 rounded-[1.8rem] relative overflow-hidden cursor-pointer transition-all hover:scale-[1.01] border ${getRelativeColor(
                     'bg-white border-slate-200/60 shadow-sm',
                     'bg-wallet-dark-card border-wallet-dark-card-lighter'
@@ -630,7 +602,6 @@ const [mutualFunds, setMutualFunds] = useState<number>(() => {
                 {/* Mutual Funds Card */}
                 <div
                   onClick={() => { }}
-                  // onClick={() => setEarningsWidgetOpen(true)}
                   className={`p-4 rounded-[1.8rem] relative overflow-hidden cursor-pointer transition-all hover:scale-[1.01] border ${getRelativeColor(
                     'bg-white border-slate-200/60 shadow-sm',
                     'bg-wallet-dark-card border-wallet-dark-card-lighter'
@@ -659,26 +630,7 @@ const [mutualFunds, setMutualFunds] = useState<number>(() => {
 
         </div>
 
-
       </div>
-
-      {/* --- FLOATING NOTIFICATION BANNER / MOCK INSTRUCTIONS (TOP HEADER) --- */}
-      {/* {showTutorialAlert && (
-        <div className="fixed bottom-4 left-4 z-40 max-w-sm p-4 bg-wallet-purple text-white rounded-2xl shadow-xl flex gap-3 items-start justify-between border border-white/20 animate-slide-up">
-          <div className="flex gap-2">
-            <Sparkles className="w-5 h-5 shrink-0 mt-0.5 animate-spin" />
-            <div>
-              <h4 className="font-bold text-xs">Simulate Everything Live!</h4>
-              <p className="text-[10px] opacity-90 mt-1">
-                Click <q>Add Money</q>, transfer to friends with <g>Other Banks</g>, recharge airtime, or unlock daily rewards. Use the **Left controls panel** on desktop screens!
-              </p>
-            </div>
-          </div>
-          <button onClick={() => setShowTutorialAlert(false)} className="text-white/80 hover:text-white font-bold text-xs p-1">
-            ✕
-          </button>
-        </div>
-      )} */}
 
       {/* --- ALL IN APP MODALS --- */}
 
