@@ -422,7 +422,7 @@ export default function Home() {
 
                     <button
                       onClick={() => setAddMoneyOpen(true)}
-                      className="px-4.5 py-1.5 bg-black/30 hover:bg-black/50 text-white rounded-full text-xs font-bold transition-all border border-white/20 active:scale-95 shadow shrink-0"
+                      className="px-4.5 py-1.5 bg-black/30 hover:bg-black/50 text-white rounded-full text-xs font-bold transition-all  active:scale-95 shadow shrink-0"
                     >
                       Add Money
                     </button>
