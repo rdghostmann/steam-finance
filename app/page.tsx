@@ -315,7 +315,7 @@ export default function Home() {
   return (
     <div className={`min-h-screen py-2 px-4 md:px-8 transition-colors duration-300 font-sans  ${getRelativeColor(
       'bg-slate-200 border-slate-300 shadow-slate-100',
-      'bg-[#110f17] border-[#2C2640] shadow-slate-950/20'
+      'bg-[#110f17] border-[#110f17] shadow-slate-950/20'
     )
       }`}>
 
@@ -335,7 +335,7 @@ export default function Home() {
             {/* Simulated Active Application */}
             <div className={`w-full rounded-[2.5rem] px-2 pt-8 pb-6 overflow-hidden min-h-1 flex flex-col justify-between transition-colors duration-300 ${getRelativeColor(
               'bg-slate-200 border-slate-300 shadow-slate-100',
-              'bg-[#1F1B2C] border-[#2C2640] shadow-slate-950/20'
+              'bg-[#110f17] border-[#2C2640] shadow-slate-950/20'
             )}`}>
 
               {/* STAGE A: HEADER BAR */}
