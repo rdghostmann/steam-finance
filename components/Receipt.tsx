@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft, Share2, Download, CheckCircle2, Loader2 } from 'lucide-react';
 import { ReceiptData } from '@/types';
-
+import Image from 'next/image';
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
 function formatAmount(n: number) {
@@ -300,7 +300,7 @@ export default function ReceiptPage() {
             <div className="flex items-center gap-2.5 mb-6">
               <NairaPayIcon />
               <span className="text-[24px] font-extrabold text-gray-900 tracking-tight">
-               PalmPay
+                PalmPay
               </span>
             </div>
 
@@ -323,14 +323,41 @@ export default function ReceiptPage() {
             <Divider />
 
             {/* Recipient */}
+            {/* Recipient */}
             <div className="grid grid-cols-2 gap-3 items-start">
-              <p className="text-[19px] font-extrabold" style={{ color: '#2A245A' }}>Recipient:</p>
+              <p
+                className="text-[19px] font-extrabold"
+                style={{ color: '#2A245A' }}
+              >
+                Recipient:
+              </p>
+
               <div className="text-right">
-                <p className="text-[14px] font-extrabold uppercase leading-snug" style={{ color: '#2A245A' }}>
+                <p
+                  className="text-[14px] font-extrabold uppercase leading-snug"
+                  style={{ color: '#2A245A' }}
+                >
                   {receipt.recipientName}
                 </p>
-                <p className="text-[12px] font-bold text-gray-400 mt-2">
-                  {receipt.recipientBank} | {receipt.recipientAccount}
+
+                <div className="flex justify-end items-center gap-2 mt-2">
+                  {receipt.recipientBankLogo && (
+                    <Image
+                      src={receipt.recipientBankLogo}
+                      alt={receipt.recipientBank}
+                      width={24}
+                      height={24}
+                      className="w-6 h-6 object-contain rounded-full"
+                    />
+                  )}
+
+                  <span className="text-[12px] font-bold text-gray-400">
+                    {receipt.recipientBank}
+                  </span>
+                </div>
+
+                <p className="text-[12px] font-bold text-gray-400 mt-1">
+                  {receipt.recipientAccount}
                 </p>
               </div>
             </div>
@@ -359,8 +386,8 @@ export default function ReceiptPage() {
               </h3>
               <div className="space-y-3.5">
                 <InfoRow label="Transaction Type" value={receipt.transactionType} />
-                <InfoRow label="Transaction ID"   value={receipt.transactionId} />
-                <InfoRow label="Session ID"        value={receipt.sessionId} />
+                <InfoRow label="Transaction ID" value={receipt.transactionId} />
+                <InfoRow label="Session ID" value={receipt.sessionId} />
                 {receipt.remark && <InfoRow label="Remark" value={receipt.remark} />}
               </div>
             </div>

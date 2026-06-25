@@ -39,9 +39,23 @@ export const INITIAL_TRANSACTIONS: Transaction[] = [
     type: 'transfer',
     title: 'Transfer to Adebayo Seyi (Access Bank)',
     amount: 5000.00,
+    fee: 0,
     date: 'Yesterday 10:30 AM',
     status: 'Successful',
-    reference: 'REF-TXN-3820291-BNK'
+
+    reference: 'REF-TXN-3820291-BNK',
+
+    recipientName: 'ADEBAYO SEYI',
+    recipientBank: 'Access Bank',
+    recipientAccount: '0123456789',
+
+    bankLogo: '/banks/access.png',
+
+    transactionId: 'ab3k82m9xq4r1',
+    sessionId: '123456789012345678901234567890',
+
+    paymentType: 'Money Transfer - MMO',
+    paymentMethod: 'PalmPay Balance',
   },
   {
     id: 'tx-4',

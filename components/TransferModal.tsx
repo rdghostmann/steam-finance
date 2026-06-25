@@ -6,52 +6,64 @@ import { useRouter } from 'next/navigation';
 import {
   X, Landmark, Send, UserCheck, AlertCircle, ArrowRight, BadgeCheck,
 } from 'lucide-react';
-import { ReceiptData } from '@/types';
+import { ReceiptData, Transaction } from '@/types';
 
 interface Bank {
   name: string;
   code: string;
+  logo: string;
 }
 
 interface TransferModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  availableBalance: number;
-  onTransferSuccess: (amount: number, description: string, isPalmPay: boolean) => void;
-  isDarkMode: boolean;
-  presetTarget?: 'bank' | 'palmpay';
+  isOpen: boolean; onClose: () => void; availableBalance: number;
+  isDarkMode: boolean; presetTarget?: 'bank' | 'palmpay';  
+  onTransferSuccess: (
+    transaction: Transaction
+  ) => void;
 }
 
 const NIGERIAN_BANKS: Bank[] = [
-  { name: 'Access Bank',              code: '044' },
-  { name: 'Citibank Nigeria',         code: '023' },
-  { name: 'Ecobank Nigeria',          code: '050' },
-  { name: 'Fidelity Bank',            code: '070' },
-  { name: 'First Bank of Nigeria',    code: '011' },
-  { name: 'First City Monument Bank', code: '214' },
-  { name: 'Globus Bank',              code: '00103' },
-  { name: 'Guaranty Trust Bank',      code: '058' },
-  { name: 'Heritage Bank',            code: '030' },
-  { name: 'Jaiz Bank',                code: '301' },
-  { name: 'Keystone Bank',            code: '082' },
-  { name: 'Kuda Bank',                code: '50211' },
-  { name: 'Moniepoint MFB',           code: '50515' },
-  { name: 'OPay',                     code: '999992' },
-  { name: 'Parallex Bank',            code: '526' },
-  { name: 'Polaris Bank',             code: '076' },
-  { name: 'Providus Bank',            code: '101' },
-  { name: 'Stanbic IBTC Bank',        code: '039' },
-  { name: 'Standard Chartered Bank',  code: '068' },
-  { name: 'Sterling Bank',            code: '232' },
-  { name: 'SunTrust Bank',            code: '100' },
-  { name: 'Union Bank of Nigeria',    code: '032' },
-  { name: 'United Bank for Africa',   code: '033' },
-  { name: 'Unity Bank',               code: '215' },
-  { name: 'VFD Microfinance Bank',    code: '566' },
-  { name: 'Wema Bank',                code: '035' },
-  { name: 'Zenith Bank',              code: '057' },
+  {
+    name: 'Access Bank',
+    code: '044',
+    logo: '/banks/access.png',
+  },
+  {
+    name: 'First Bank of Nigeria',
+    code: '011',
+    logo: '/banks/firstbank.png',
+  },
+  {
+    name: 'Guaranty Trust Bank',
+    code: '058',
+    logo: '/banks/gtbank.png',
+  },
+  {
+    name: 'Kuda Bank',
+    code: '50211',
+    logo: '/banks/kuda.png',
+  },
+  {
+    name: 'Moniepoint MFB',
+    code: '50515',
+    logo: '/banks/moniepoint.png',
+  },
+  {
+    name: 'United Bank for Africa',
+    code: '033',
+    logo: '/banks/uba.png',
+  },
+  {
+    name: 'Wema Bank',
+    code: '035',
+    logo: '/banks/wema.png',
+  },
+  {
+    name: 'Zenith Bank',
+    code: '057',
+    logo: '/banks/zenith.png',
+  },
 ];
-
 // PalmPay's Paystack bank code — used for phone-number resolution
 const PALMPAY_BANK_CODE = '999991';
 
@@ -200,32 +212,84 @@ export default function TransferModal({
     }
 
     setIsSubmitting(true);
-
+    
     const narration =
       transferType === 'bank'
         ? `To ${resolvedName} (${selectedBank.name})`
         : `To PalmPay (${resolvedName})`;
 
-    onTransferSuccess(amtNum, narration, transferType === 'palmpay');
 
-    const receipt: ReceiptData = {
-      amount: amtNum,
-      recipientName: resolvedName.toUpperCase(),
-      recipientBank: transferType === 'bank' ? selectedBank.name : 'PalmPay',
-      recipientAccount:
-        transferType === 'bank'
-          ? accountNumber
-          : phoneNo.replace(/(\d{3})(\d{4})(\d{4})/, '$1 $2 $3'),
-      senderName: 'RANDAL WILSON',
-      senderBank: 'NairaPay',
-      senderAccount: '805***3157',
-      transactionType: 'Money Transfer - MMO',
-      transactionId: genId(13),
-      sessionId: genSessionId(),
-      remark: remark || '',
-      timestamp: new Date().toISOString(),
-    };
+   const receipt: ReceiptData = {
+  amount: amtNum,
+  recipientName: resolvedName.toUpperCase(),
 
+  recipientBank:
+    transferType === 'bank'
+      ? selectedBank.name
+      : 'PalmPay',
+
+  recipientBankLogo:
+    transferType === 'bank'
+      ? selectedBank.logo
+      : '/banks/palmpay.png',
+
+  recipientAccount:
+    transferType === 'bank'
+      ? accountNumber
+      : phoneNo.replace(
+          /(\d{3})(\d{4})(\d{4})/,
+          '$1 $2 $3'
+        ),
+
+  senderName: 'RANDAL WILSON',
+  senderBank: 'PalmPay',
+  senderAccount: '805***3157',
+
+  transactionType: 'Money Transfer - MMO',
+  transactionId: genId(13),
+  sessionId: genSessionId(),
+  remark: remark || '',
+  timestamp: new Date().toISOString(),
+
+
+};
+ const transaction: Transaction = {
+  id: crypto.randomUUID(),
+
+  type: 'transfer',
+
+  title: narration,
+
+  amount: amtNum,
+
+  fee: 0,
+
+  date: new Date().toLocaleString(),
+
+  status: 'Successful',
+
+  reference: receipt.transactionId,
+
+  recipientName: receipt.recipientName,
+
+  recipientBank: receipt.recipientBank,
+
+  recipientAccount: receipt.recipientAccount,
+
+  bankLogo: receipt.recipientBankLogo,
+
+  transactionId: receipt.transactionId,
+
+  sessionId: receipt.sessionId,
+
+  paymentType: receipt.transactionType,
+
+  paymentMethod: 'PalmPay Balance',
+};
+    onTransferSuccess(transaction);
+
+
+ 
     localStorage.setItem('np_last_receipt', JSON.stringify(receipt));
     setTimeout(() => router.push('/receipt'), 300);
   };

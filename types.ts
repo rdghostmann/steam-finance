@@ -1,11 +1,41 @@
 export interface Transaction {
   id: string;
-  type: 'deposit' | 'transfer' | 'airtime' | 'data' | 'service' | 'interest' | 'commission';
+
+  type:
+    | 'deposit'
+    | 'transfer'
+    | 'airtime'
+    | 'data'
+    | 'service'
+    | 'interest'
+    | 'commission';
+
   title: string;
+
   amount: number;
+  fee?: number;
+
   date: string;
-  status: 'Successful' | 'Pending' | 'Failed';
+
+  status:
+    | 'Successful'
+    | 'Pending'
+    | 'Failed';
+
   reference: string;
+
+  // Transfer-specific details
+  recipientName?: string;
+  recipientBank?: string;
+  recipientAccount?: string;
+  bankLogo?: string;
+
+  transactionId?: string;
+  sessionId?: string;
+
+  // Optional PalmPay-like fields
+  paymentType?: string;
+  paymentMethod?: string;
 }
 
 export interface AppNotification {
@@ -29,6 +59,7 @@ export interface ReceiptData {
   recipientName: string;
   recipientBank: string;         // e.g. "Access Bank" or "PalmPay"
   recipientAccount: string;      // account number or masked phone
+  recipientBankLogo?: string;
   senderName: string;            // e.g. "RANDAL WILSON"
   senderBank: string;            // e.g. "NairaPay"
   senderAccount: string;         // masked sender account

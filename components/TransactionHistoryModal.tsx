@@ -25,11 +25,11 @@ export default function TransactionHistoryModal({
   const [copiedTxId, setCopiedTxId] = useState<string | null>(null);
 
   const filteredTransactions = transactions.filter(tx => {
-    const matchesSearch = tx.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                          tx.reference.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesType = selectedType === 'all' || 
-                        (selectedType === 'credit' && ['deposit', 'interest', 'commission'].includes(tx.type)) ||
-                        (selectedType === 'debit' && ['transfer', 'airtime', 'data', 'service'].includes(tx.type));
+    const matchesSearch = tx.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      tx.reference.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesType = selectedType === 'all' ||
+      (selectedType === 'credit' && ['deposit', 'interest', 'commission'].includes(tx.type)) ||
+      (selectedType === 'debit' && ['transfer', 'airtime', 'data', 'service'].includes(tx.type));
     return matchesSearch && matchesType;
   });
 
@@ -80,16 +80,14 @@ export default function TransactionHistoryModal({
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className={`relative w-full max-w-lg overflow-hidden rounded-3xl border shadow-2xl transition-colors duration-300 ${
-              isDarkMode 
-                ? 'bg-wallet-dark border-wallet-dark-card-lighter text-white' 
+            className={`relative w-full max-w-lg overflow-hidden rounded-3xl border shadow-2xl transition-colors duration-300 ${isDarkMode
+                ? 'bg-wallet-dark border-wallet-dark-card-lighter text-white'
                 : 'bg-white border-slate-100 text-slate-800'
-            }`}
+              }`}
           >
             {/* Header */}
-            <div className={`p-6 border-b flex justify-between items-center ${
-              isDarkMode ? 'border-wallet-dark-card-lighter' : 'border-slate-100'
-            }`}>
+            <div className={`p-6 border-b flex justify-between items-center ${isDarkMode ? 'border-wallet-dark-card-lighter' : 'border-slate-100'
+              }`}>
               <div>
                 <h3 className="font-display text-xl font-bold">Transaction History</h3>
                 <p className={`text-xs mt-0.5 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
@@ -98,9 +96,8 @@ export default function TransactionHistoryModal({
               </div>
               <button
                 onClick={onClose}
-                className={`p-2 rounded-full hover:scale-105 transition-transform ${
-                  isDarkMode ? 'bg-wallet-dark-card text-slate-400' : 'bg-slate-100 text-slate-600'
-                }`}
+                className={`p-2 rounded-full hover:scale-105 transition-transform ${isDarkMode ? 'bg-wallet-dark-card text-slate-400' : 'bg-slate-100 text-slate-600'
+                  }`}
               >
                 <X className="w-5 h-5" />
               </button>
@@ -117,11 +114,10 @@ export default function TransactionHistoryModal({
                     placeholder="Search by name, reference..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className={`w-full pl-10 pr-4 py-2.5 rounded-xl text-sm outline-none transition-all ${
-                      isDarkMode 
-                        ? 'bg-wallet-dark-card border border-wallet-dark-card-lighter focus:border-wallet-purple text-white placeholder-slate-500' 
+                    className={`w-full pl-10 pr-4 py-2.5 rounded-xl text-sm outline-none transition-all ${isDarkMode
+                        ? 'bg-wallet-dark-card border border-wallet-dark-card-lighter focus:border-wallet-purple text-white placeholder-slate-500'
                         : 'bg-slate-50 border border-slate-200 focus:border-wallet-purple text-slate-800 placeholder-slate-400'
-                    }`}
+                      }`}
                   />
                 </div>
 
@@ -129,31 +125,28 @@ export default function TransactionHistoryModal({
                 <div className="flex gap-2 p-1 rounded-xl bg-opacity-40 bg-zinc-500/10">
                   <button
                     onClick={() => setSelectedType('all')}
-                    className={`flex-1 py-1.5 text-xs font-semibold rounded-lg transition-all ${
-                      selectedType === 'all'
+                    className={`flex-1 py-1.5 text-xs font-semibold rounded-lg transition-all ${selectedType === 'all'
                         ? 'bg-wallet-purple text-white shadow'
                         : isDarkMode ? 'text-slate-400 hover:text-white' : 'text-slate-600 hover:text-slate-800'
-                    }`}
+                      }`}
                   >
                     All Types
                   </button>
                   <button
                     onClick={() => setSelectedType('credit')}
-                    className={`flex-1 py-1.5 text-xs font-semibold rounded-lg transition-all ${
-                      selectedType === 'credit'
+                    className={`flex-1 py-1.5 text-xs font-semibold rounded-lg transition-all ${selectedType === 'credit'
                         ? 'bg-wallet-purple text-white shadow'
                         : isDarkMode ? 'text-slate-400 hover:text-white' : 'text-slate-600 hover:text-slate-800'
-                    }`}
+                      }`}
                   >
                     Inflow (+)
                   </button>
                   <button
                     onClick={() => setSelectedType('debit')}
-                    className={`flex-1 py-1.5 text-xs font-semibold rounded-lg transition-all ${
-                      selectedType === 'debit'
+                    className={`flex-1 py-1.5 text-xs font-semibold rounded-lg transition-all ${selectedType === 'debit'
                         ? 'bg-wallet-purple text-white shadow'
                         : isDarkMode ? 'text-slate-400 hover:text-white' : 'text-slate-600 hover:text-slate-800'
-                    }`}
+                      }`}
                   >
                     Outflow (-)
                   </button>
@@ -176,16 +169,14 @@ export default function TransactionHistoryModal({
                       <div
                         key={tx.id}
                         onClick={() => setSelectedTx(tx)}
-                        className={`flex items-center justify-between p-3.5 rounded-xl cursor-pointer transition-all hover:scale-[1.01] ${
-                          isDarkMode 
-                            ? 'bg-wallet-dark-card hover:bg-wallet-dark-card-lighter' 
+                        className={`flex items-center justify-between p-3.5 rounded-xl cursor-pointer transition-all hover:scale-[1.01] ${isDarkMode
+                            ? 'bg-wallet-dark-card hover:bg-wallet-dark-card-lighter'
                             : 'bg-slate-50 hover:bg-slate-100'
-                        }`}
+                          }`}
                       >
                         <div className="flex items-center gap-3">
-                          <div className={`p-2 rounded-xl ${
-                            isDarkMode ? 'bg-wallet-dark' : 'bg-white border border-slate-100'
-                          }`}>
+                          <div className={`p-2 rounded-xl ${isDarkMode ? 'bg-wallet-dark' : 'bg-white border border-slate-100'
+                            }`}>
                             {getTxIcon(tx.type)}
                           </div>
                           <div>
@@ -195,18 +186,16 @@ export default function TransactionHistoryModal({
                         </div>
 
                         <div className="text-right">
-                          <p className={`font-display text-xs md:text-sm font-bold ${
-                            isCredit ? 'text-wallet-green' : isDarkMode ? 'text-white' : 'text-slate-800'
-                          }`}>
+                          <p className={`font-display text-xs md:text-sm font-bold ${isCredit ? 'text-wallet-green' : isDarkMode ? 'text-white' : 'text-slate-800'
+                            }`}>
                             {isCredit ? '+' : '-'}{formatCurrency(tx.amount)}
                           </p>
-                          <span className={`inline-block text-[9px] px-1.5 py-0.5 rounded-full mt-0.5 font-medium ${
-                            tx.status === 'Successful' 
-                              ? 'bg-emerald-500/10 text-emerald-500' 
-                              : tx.status === 'Pending' 
-                                ? 'bg-amber-500/10 text-amber-500' 
+                          <span className={`inline-block text-[9px] px-1.5 py-0.5 rounded-full mt-0.5 font-medium ${tx.status === 'Successful'
+                              ? 'bg-emerald-500/10 text-emerald-500'
+                              : tx.status === 'Pending'
+                                ? 'bg-amber-500/10 text-amber-500'
                                 : 'bg-red-500/10 text-red-500'
-                          }`}>
+                            }`}>
                             {tx.status}
                           </span>
                         </div>
@@ -237,6 +226,7 @@ export default function TransactionHistoryModal({
       )}
 
       {/* Detail Receipt Overlay Modal */}
+      {/* PalmPay Style Receipt Modal */}
       {selectedTx && (
         <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
           <motion.div
@@ -248,71 +238,109 @@ export default function TransactionHistoryModal({
           />
 
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 10 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 10 }}
-            className={`relative w-full max-w-sm rounded-[2rem] p-6 text-center border overflow-hidden transition-all duration-300 ${
-              isDarkMode 
-                ? 'bg-wallet-dark border-wallet-dark-card-lighter text-white' 
-                : 'bg-white border-slate-200 text-slate-800'
-            }`}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            className={`relative w-full max-w-sm rounded-3xl overflow-hidden ${isDarkMode
+                ? "bg-wallet-dark text-white"
+                : "bg-white text-slate-800"
+              }`}
           >
-            {/* Top decorative receipt cut or check icon */}
-            <div className="w-12 h-12 bg-wallet-purple/10 text-wallet-purple rounded-full flex items-center justify-center mx-auto mb-4">
-              <Landmark className="w-6 h-6 animate-pulse" />
+            {/* Success Header */}
+            <div className="bg-[#6c3df4] px-6 py-8 text-center text-white">
+              <div className="w-16 h-16 rounded-full bg-white mx-auto flex items-center justify-center">
+                <Check className="w-8 h-8 text-[#6c3df4]" />
+              </div>
+
+              <h3 className="mt-4 text-lg font-bold">
+                Transaction Successful
+              </h3>
+
+              <p className="text-white/80 text-xs mt-1">
+                Transaction Receipt
+              </p>
+
+              <h2 className="text-3xl font-bold mt-4">
+                {formatCurrency(selectedTx.amount)}
+              </h2>
             </div>
 
-            <p className="text-[10px] uppercase tracking-wider text-slate-500 font-semibold mb-1">
-              Transaction Receipt
-            </p>
-            <h4 className="font-display text-2xl font-bold text-wallet-purple">
-              {['deposit', 'interest', 'commission'].includes(selectedTx.type) ? '+' : '-'}
-              {formatCurrency(selectedTx.amount)}
-            </h4>
-            
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold mt-2 bg-emerald-500/10 text-emerald-500 mx-auto">
-              <Check className="w-3.5 h-3.5" /> {selectedTx.status}
-            </span>
+            {/* Receipt Body */}
+            <div className="p-6 space-y-4">
 
-            <div className={`mt-6 p-4 rounded-2xl text-left text-xs space-y-3 ${
-              isDarkMode ? 'bg-wallet-dark-card' : 'bg-slate-50'
-            }`}>
-              <div className="flex justify-between items-center border-b border-dashed border-slate-500/15 pb-2">
-                <span className="text-slate-500">Service / Activity</span>
-                <span className="font-semibold">{selectedTx.title}</span>
+              <div className="flex justify-between">
+                <span className="text-slate-500 text-sm">
+                  Transaction Type
+                </span>
+                <span className="font-semibold capitalize">
+                  {selectedTx.type}
+                </span>
               </div>
-              <div className="flex justify-between items-center border-b border-dashed border-slate-500/15 pb-2">
-                <span className="text-slate-500">Timestamp</span>
-                <span className="font-mono text-slate-400">{selectedTx.date}</span>
+
+              <div className="flex justify-between">
+                <span className="text-slate-500 text-sm">
+                  Description
+                </span>
+                <span className="font-semibold text-right max-w-[180px]">
+                  {selectedTx.title}
+                </span>
               </div>
-              <div className="flex justify-between items-center border-b border-dashed border-slate-500/15 pb-2">
-                <span className="text-slate-500">Payment Status</span>
-                <span className="text-emerald-500 font-medium">SUCCESSFUL</span>
+
+              <div className="flex justify-between">
+                <span className="text-slate-500 text-sm">
+                  Date
+                </span>
+                <span className="font-medium">
+                  {selectedTx.date}
+                </span>
               </div>
-              <div className="flex flex-col gap-1 pt-1">
-                <span className="text-slate-500">Reference Number</span>
-                <div className="flex items-center justify-between">
-                  <span className="font-mono text-[10px] break-all select-all">{selectedTx.reference}</span>
+
+              <div className="flex justify-between">
+                <span className="text-slate-500 text-sm">
+                  Status
+                </span>
+                <span className="text-green-500 font-semibold">
+                  {selectedTx.status}
+                </span>
+              </div>
+
+              <div className="border-t border-dashed pt-4">
+                <p className="text-slate-500 text-xs mb-2">
+                  Reference Number
+                </p>
+
+                <div className="flex items-center justify-between gap-2">
+                  <span className="font-mono text-xs break-all">
+                    {selectedTx.reference}
+                  </span>
+
                   <button
                     onClick={() => handleCopy(selectedTx.reference)}
-                    className="p-1 rounded hover:bg-slate-500/15 text-slate-400 transition"
+                    className="p-2 rounded-lg bg-slate-100 dark:bg-slate-800"
                   >
                     {copiedTxId === selectedTx.reference ? (
-                      <Check className="w-3.5 h-3.5 text-emerald-500" />
+                      <Check className="w-4 h-4 text-green-500" />
                     ) : (
-                      <Copy className="w-3.5 h-3.5" />
+                      <Copy className="w-4 h-4" />
                     )}
                   </button>
                 </div>
               </div>
-            </div>
 
-            <button
-              onClick={() => setSelectedTx(null)}
-              className="mt-6 w-full py-3 bg-wallet-purple hover:bg-wallet-purple-hover text-white rounded-xl text-sm font-semibold shadow hover:shadow-lg transition-all"
-            >
-              Done & Close
-            </button>
+              {/* Share Button */}
+              <button
+                className="w-full py-3 rounded-xl bg-[#6c3df4] text-white font-semibold"
+              >
+                Share Receipt
+              </button>
+
+              <button
+                onClick={() => setSelectedTx(null)}
+                className="w-full py-3 rounded-xl border border-slate-300 font-semibold"
+              >
+                Close
+              </button>
+            </div>
           </motion.div>
         </div>
       )}

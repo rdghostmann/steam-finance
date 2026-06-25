@@ -174,25 +174,20 @@ export default function Home() {
     triggerNotification('Funding Successful! 💰', `Your NairaPay wallet has been credited with +₦${amount.toLocaleString()} via ${methodTitle}.`);
   };
 
-  const handleTransferSuccess = (amount: number, recipientDetail: string, isPalmPay: boolean) => {
-    const newBalance = balance - amount;
-    setBalance(newBalance);
+  const handleTransferSuccess = (
+  transaction: Transaction
+) => {
+  setTransactions(prev => [transaction, ...prev]);
 
-    const newTx: Transaction = {
-      id: `tx-${Date.now()}`,
-      type: 'transfer',
-      title: `Transfer ${recipientDetail}`,
-      amount,
-      date: 'Today ' + new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }),
-      status: 'Successful',
-      reference: `REF-TRF-${Math.floor(Math.random() * 899999 + 100000)}-NPRY`
-    };
+  setBalance(prev =>
+    prev - transaction.amount - (transaction.fee || 0)
+  );
 
-    setTransactions((prev) => [newTx, ...prev]);
-
-    const notifTitle = isPalmPay ? 'PalmPay Transfer Dispatched ⚡' : 'Bank Transfer Successful 🏛️';
-    triggerNotification(notifTitle, `Sent ₦${amount.toLocaleString()} ${recipientDetail}. Dynamic fee: ₦0.00.`);
-  };
+  triggerNotification(
+    'Transfer Successful ✅',
+    `₦${transaction.amount.toLocaleString()} sent to ${transaction.recipientName}.`
+  );
+};
 
   const handleServiceSuccess = (amount: number, description: string) => {
     const newBalance = balance - amount;
@@ -398,7 +393,7 @@ export default function Home() {
                         alt="Balance Indicator"
                         width={46}
                         height={46}
-                        className="w-6 h-6 object-contain"
+                        className="w-4 h-4 object-contain"
                       />
                       <span className="text-[8px] font-bold text-white uppercase tracking-widest flex items-center gap-1">
                         Available Balance
@@ -422,7 +417,7 @@ export default function Home() {
 
                     <button
                       onClick={() => setAddMoneyOpen(true)}
-                      className="px-4.5 py-1.5 bg-black/30 hover:bg-black/50 text-white rounded-full text-xs font-bold transition-all  active:scale-95 shadow shrink-0"
+                      className="px-4.5 py-1.5 bg-black hover:bg-black/50 text-white rounded-full text-xs font-bold transition-all  active:scale-95 shadow shrink-0"
                     >
                       Add Money
                     </button>
@@ -580,7 +575,7 @@ export default function Home() {
               </div>
 
               {/* STAGE F: DAILY COMMISSION REWARD BANNER */}
-              <div className={`mt-3.5 p-4 rounded-3xl relative overflow-hidden flex items-center justify-between ${getRelativeColor('bg-[#FFF8F2] border border-[#FFE7D1]', 'bg-wallet-dark-card border border-wallet-dark-card-lighter')
+              <div className={`mt-3.5 p-4 rounded-3xl relative overflow-hidden flex items-center justify-between ${getRelativeColor('bg-[#FFF8F2] border border-[#FFE7D1]', 'bg-wallet-dark-card border ')
                 }`}>
                 {/* Visual Accent */}
                 <div className="absolute right-0 bottom-0 top-0 w-24 bg-gradient-to-l from-amber-500/5 to-transparent pointer-events-none" />
@@ -608,25 +603,25 @@ export default function Home() {
               </div>
 
               {/* STAGE G: BOTTOM INVESTMENT/SAVINGS CONTAINER CARDS */}
-              <div className="grid grid-cols-2 gap-2.5 mt-3.5">
+              <div className="grid grid-cols-2 gap-2.5 mt-3.5 bg-wallet-dark-card rounded-3">
 
                 {/* CashBox Card */}
                 <div
                   onClick={() => { }}
-                  className={`p-4 rounded-[1.8rem] relative overflow-hidden cursor-pointer transition-all hover:scale-[1.01] border ${getRelativeColor(
+                  className={`p-6 rounded-[1.8rem] relative overflow-hidden cursor-pointer transition-all hover:scale-[1.01] border ${getRelativeColor(
                     'bg-white border-slate-200/60 shadow-sm',
-                    'bg-wallet-dark-card border-wallet-dark-card-lighter'
+                    'bg-black '
                   )
                     }`}
                 >
                   <h4 className="font-display font-medium text-xs text-wallet-purple leading-tight">CashBox</h4>
-                  <p className="text-[9px] text-slate-500 leading-tight mt-1.5 line-clamp-2">
+                  <p className="text-[9px] text-slate-200 leading-tight mt-1.5 line-clamp-2">
                     Your Available Balance, Earning for You Daily!
                   </p>
 
                   <div className="mt-3">
                     <span className="text-xl font-bold font-display text-wallet-green">20.00%</span>
-                    <span className="text-[8px] text-slate-500 font-semibold uppercase tracking-wider block mt-0.5">Maximum Annual Yield</span>
+                    <span className="text-[8px] text-slate-200 font-semibold uppercase tracking-wider block mt-0.5">Maximum Annual Yield</span>
                   </div>
                 </div>
 
@@ -635,23 +630,23 @@ export default function Home() {
                   onClick={() => { }}
                   className={`p-4 rounded-[1.8rem] relative overflow-hidden cursor-pointer transition-all hover:scale-[1.01] border ${getRelativeColor(
                     'bg-white border-slate-200/60 shadow-sm',
-                    'bg-wallet-dark-card border-wallet-dark-card-lighter'
+                    'bg-black'
                   )
                     }`}
                 >
                   {/* Diagonal top badge */}
-                  <div className="absolute -right-6 top-4 bg-amber-500 text-white font-black text-[6px] sm:text-[7px] py-1 px-10 rotate-45 tracking-widest uppercase text-center">
+                  <div className="absolute -right-6 top-4 bg-amber-500 text-white font-black text-[6px] sm:text-[5px] py-1 px-10 rotate-45 tracking-widest uppercase text-center">
                     TOP PICK
                   </div>
 
                   <h4 className="font-display font-medium text-xs text-violet-400 leading-tight">Mutual Funds</h4>
-                  <p className="text-[9px] text-slate-500 leading-tight mt-1.5 line-clamp-2">
+                  <p className="text-[9px] text-slate-200 leading-tight mt-1.5 line-clamp-2">
                     Grow your Money while you go!
                   </p>
 
                   <div className="mt-3">
                     <span className="text-xl font-bold font-display text-wallet-green">101.19%</span>
-                    <span className="text-[8px] text-slate-500 font-semibold uppercase tracking-wider block mt-0.5">Maximum Annual Yield</span>
+                    <span className="text-[8px] text-slate-200 font-semibold uppercase tracking-wider block mt-0.5">Maximum Annual Yield</span>
                   </div>
                 </div>
               </div>
