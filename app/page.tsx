@@ -491,7 +491,7 @@ export default function Home() {
                       'bg-wallet-dark-card hover:bg-wallet-dark-card-lighter text-white'
                     )}`}
                   >
-                   
+
 
                     <div
                       className={` mb-1.5 (
@@ -559,8 +559,8 @@ export default function Home() {
                       'bg-wallet-dark-card text-white hover:bg-wallet-dark-card-lighter'
                     )}`}
                   >
-                   
-                    
+
+
 
                     <div className={`p-2 rounded-xl mb-1.5 `}>
                       <Image
@@ -640,7 +640,7 @@ export default function Home() {
                     }`}
                 >
                   {/* Diagonal top badge */}
-                  <div className="absolute -right-8 top-5 bg-amber-500 text-white font-black text-[7px] py-[3px] px-18 rotate-[30deg] translate-x-3 translate-y-1 block tracking-widest scale-95 uppercase">
+                  <div className="absolute -right-6 top-4 bg-amber-500 text-white font-black text-[6px] sm:text-[7px] py-1 px-10 rotate-45 tracking-widest uppercase text-center">
                     TOP PICK
                   </div>
 
